@@ -25,8 +25,21 @@ class VideoController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Video());
-
-
+        
+        $grid->column('id', 'ID')->sortable();
+        $grid->column('name', '标题');
+        $grid->column('created_at');
+        $grid->column('updated_at');
+        
+        /*README
+            https://laravel-admin.org/docs/zh/model-grid
+        $grid->model()->where('id', '>', 100);
+        $grid->model()->whereIn('id', [1, 2, 3]);
+        $grid->model()->whereBetween('votes', [1, 100]);
+        $grid->model()->whereColumn('updated_at', '>', 'created_at');
+        $grid->model()->orderBy('id', 'desc');
+        $grid->model()->take(100);
+        */
 
         return $grid;
     }
@@ -41,7 +54,10 @@ class VideoController extends AdminController
     {
         $show = new Show(Video::findOrFail($id));
 
-
+        $show->field('id', 'ID');
+        $show->field('name', '标题');
+        $show->field('created_at');
+        $show->field('updated_at');
 
         return $show;
     }
@@ -55,6 +71,7 @@ class VideoController extends AdminController
     {
         $form = new Form(new Video());
 
+        $form->text("name");
 
 
         return $form;
