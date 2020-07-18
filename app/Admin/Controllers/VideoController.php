@@ -27,7 +27,7 @@ class VideoController extends AdminController
         $grid = new Grid(new Video());
         
         $grid->column('id', 'ID')->sortable();
-        $grid->column('name', '标题');
+        $grid->column('name', '标题')->editable();
         $grid->column('created_at');
         $grid->column('updated_at');
         
@@ -70,10 +70,27 @@ class VideoController extends AdminController
     protected function form()
     {
         $form = new Form(new Video());
-
         $form->text("name");
+        $form->display("created_at");
+        $form->display("updated_at");
 
 
+        
+
+        //功能開關
+        $form->tools(function(Form\Tools $tools){
+            $tools->disableView();
+            $tools->disableDelete();
+        });
+
+        //功能開關
+        $form->footer(function ($footer){
+            $footer->disableReset();
+            $footer->disableViewCheck();
+            $footer->disableEditingCheck();
+            //$footer->disableCreatingCheck();
+        });
+        
         return $form;
     }
 }
