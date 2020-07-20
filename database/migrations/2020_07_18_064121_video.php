@@ -15,7 +15,9 @@ class Video extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',100);
+            $table->string('name',100)->nullable();
+            $table->string('video_path',100)->nullable();
+            $table->string('tags',2000)->nullable();
             $table->timestamps();
         });
     }
