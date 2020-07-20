@@ -29,6 +29,9 @@ class VideoController extends AdminController
         
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
+        $grid->column('video_size', '檔案大小')->display(function($video_size){
+            return round($video_size/1024/1024) ." Mb";
+        });
         $grid->column('created_at','建立時間')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
         });
@@ -60,6 +63,10 @@ class VideoController extends AdminController
 
         $show->field('id', 'ID');
         $show->field('name', '标题');
+        
+        $show->field('tags');
+        $show->field('content');
+
         $show->field('created_at')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
         });;
@@ -81,10 +88,18 @@ class VideoController extends AdminController
         $form->text("name",'标题')->required();
         $form->text("tags",'標籤');
         $form->file('video_path','視頻')->required();
+        $form->hidden('video_size');
+        $form->saving(function ($form){
+            if($form->video_path){
+                $form->video_size = $form->video_path->getSize();
+            }
+        });
+
+
         $form->ckeditor('content','內容說明');
 
-        $form->display("created_at");
-        $form->display("updated_at");
+        $form->display("created_at",'建立時間');
+        $form->display("updated_at",'最後更新時間');
 
         //功能開關
         $form->tools(function(Form\Tools $tools){
