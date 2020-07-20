@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ffcf1439e7efb4af75eb6ee3cf3c602",
+    "content-hash": "42312a4943f9eeb25dd179e7a14aac26",
     "packages": [
+        {
+            "name": "arrowjustdoit/crontab",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ArrowJustDoIt/crontab.git",
+                "reference": "03a866e804ed873f1c4714bc98e52d6dc1fd2af7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ArrowJustDoIt/crontab/zipball/03a866e804ed873f1c4714bc98e52d6dc1fd2af7",
+                "reference": "03a866e804ed873f1c4714bc98e52d6dc1fd2af7",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "guzzlehttp/guzzle": "^6.3",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArrowJustDoIt\\Crontab\\CrontabServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArrowJustDoIt\\Crontab\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "arrow",
+                    "email": "arrowylq@outlook.com"
+                }
+            ],
+            "description": "Crontab extension for laravel-admin",
+            "homepage": "https://github.com/ArrowJustDoIt/crontab",
+            "keywords": [
+                "crontab",
+                "extension",
+                "laravel-admin"
+            ],
+            "time": "2019-03-20T07:09:21+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "1.3.0",
@@ -1528,6 +1582,61 @@
                 "psr-3"
             ],
             "time": "2020-05-22T08:12:19+00:00"
+        },
+        {
+            "name": "namet/laravel-admin-tagsinput",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/namet117/laravel-admin-tagsinput.git",
+                "reference": "e592d56ffa285a2eb8a3f48e666c59753c9851b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/namet117/laravel-admin-tagsinput/zipball/e592d56ffa285a2eb8a3f48e666c59753c9851b0",
+                "reference": "e592d56ffa285a2eb8a3f48e666c59753c9851b0",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Namet\\Tagsinput\\TagsinputServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Namet\\Tagsinput\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "namet",
+                    "email": "namet117@163.com"
+                }
+            ],
+            "description": "tagsinput for laravel-admin Form",
+            "homepage": "https://github.com/namet117/laravel-admin-tagsinput",
+            "keywords": [
+                "bootstrap",
+                "extension",
+                "jquery",
+                "laravel-admin",
+                "tagsinput"
+            ],
+            "time": "2019-11-26T11:44:42+00:00"
         },
         {
             "name": "nesbot/carbon",
