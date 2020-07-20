@@ -18,6 +18,7 @@ class Video extends Migration
             $table->string('name',100)->nullable();
             $table->string('video_path',100)->nullable();
             $table->string('tags',2000)->nullable();
+            $table->textarea('content')->nullable();
             $table->timestamps();
         });
     }

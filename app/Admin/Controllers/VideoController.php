@@ -78,23 +78,10 @@ class VideoController extends AdminController
     protected function form()
     {
         $form = new Form(new Video());
-        $form->text("name",'名稱');
+        $form->text("name",'标题')->required();
         $form->text("tags",'標籤');
-
-        $form->file('video_path','視頻')->downloadable();
-
+        $form->file('video_path','視頻')->required();
         $form->ckeditor('content','內容說明');
-//  $form->file($column[, $label]);
-// // 修改文件上传路径和文件名
-// $form->file($column[, $label])->move($dir, $name);
-// // 并设置上传文件类型
-// $form->file($column[, $label])->rules('mimes:doc,docx,xlsx');
-// // 添加文件删除按钮
-// $form->file($column[, $label])->removable();
-// // 删除数据时保留文件
-// $form->file($column[, $label])->retainable();
-// // 增加一个下载按钮，可点击下载
-// $form->file($column[, $label])->downloadable();
 
         $form->display("created_at");
         $form->display("updated_at");
