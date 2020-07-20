@@ -86,7 +86,8 @@ class VideoController extends AdminController
     {
         $form = new Form(new Video());
         $form->text("name",'标题')->required();
-        $form->text("tags",'標籤');
+        //$form->multipleSelect('tags','標籤')->options(Tag::all()->pluck('name', 'id'));
+        $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
         $form->file('video_path','視頻')->required();
         $form->hidden('video_size');
         $form->saving(function ($form){
