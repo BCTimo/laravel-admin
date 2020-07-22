@@ -26,6 +26,9 @@ class VideoController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Video());
+        /*README
+            https://laravel-admin.org/docs/zh/model-grid
+        */
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
@@ -33,25 +36,17 @@ class VideoController extends AdminController
         return round($video_size/1024/1024) ." Mb";
         });
         $grid->column('price', '價格')->editable();
-        $grid->column('status', '上架狀態');
-
+        $grid->column('status', '上架狀態')->using(['0' => '<font color="red">未上架</font>', '1' => '<font color="blue">上架</font>']);
+        $grid->column('hot','熱門')->using(['0' => '無', '1' => '<font color="blue">熱門</font>']);
         $grid->column('created_at','建立時間')->display(function($created_at){
-            return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
+            return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
         $grid->column('updated_at','最後更新時間')->display(function($updated_at){
-            return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
+            return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
 
         
-        /*README
-            https://laravel-admin.org/docs/zh/model-grid
-        $grid->model()->where('id', '>', 100);
-        $grid->model()->whereIn('id', [1, 2, 3]);
-        $grid->model()->whereBetween('votes', [1, 100]);
-        $grid->model()->whereColumn('updated_at', '>', 'created_at');
-        $grid->model()->orderBy('id', 'desc');
-        $grid->model()->take(100);
-        */
+        
 
         return $grid;
     }
@@ -110,6 +105,7 @@ class VideoController extends AdminController
 
         $form->ckeditor('content','內容說明');
         $form->switch('status', '发布？');
+        $form->switch('hot', '熱門');
         $form->display("created_at",'建立時間');
         $form->display("updated_at",'最後更新時間');
 

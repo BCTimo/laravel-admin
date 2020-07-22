@@ -22,6 +22,7 @@ class Video extends Migration
             $table->string('tags',2000)->nullable();
             $table->text('content')->nullable();
             $table->integer('status')->nullable();
+            $table->integer('hot')->nullable();
             $table->integer('sort')->nullable();
             $table->timestamps();
         });

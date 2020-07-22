@@ -137,6 +137,42 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2020-07-21 10:05:02',
                 'updated_at' => '2020-07-21 10:05:13',
             ),
+            10 => 
+            array (
+                'id' => 11,
+                'parent_id' => 0,
+                'order' => 0,
+                'title' => '多媒體管理',
+                'icon' => 'fa-file-video-o',
+                'uri' => 'media',
+                'permission' => NULL,
+                'created_at' => '2020-07-22 16:29:16',
+                'updated_at' => '2020-07-22 16:29:16',
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'parent_id' => 0,
+                'order' => 11,
+                'title' => 'Backup',
+                'icon' => 'fa-copy',
+                'uri' => 'backup',
+                'permission' => NULL,
+                'created_at' => '2020-07-22 16:29:45',
+                'updated_at' => '2020-07-22 16:29:45',
+            ),
+            12 => 
+            array (
+                'id' => 13,
+                'parent_id' => 0,
+                'order' => 12,
+                'title' => 'Config',
+                'icon' => 'fa-toggle-on',
+                'uri' => 'config',
+                'permission' => NULL,
+                'created_at' => '2020-07-22 16:33:09',
+                'updated_at' => '2020-07-22 16:33:09',
+            ),
         ));
         
         
