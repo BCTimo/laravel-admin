@@ -30,8 +30,11 @@ class VideoController extends AdminController
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
         $grid->column('video_size', '檔案大小')->display(function($video_size){
-            return round($video_size/1024/1024) ." Mb";
+        return round($video_size/1024/1024) ." Mb";
         });
+        $grid->column('price', '價格')->editable();
+        $grid->column('status', '上架狀態');
+
         $grid->column('created_at','建立時間')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
         });

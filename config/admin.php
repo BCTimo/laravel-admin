@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => env('APP_NAME').'-admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Laravel</b> admin',
+    'logo' => '<b>'.env('APP_NAME').'</b> admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>'.env('APP_NAME').'</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -409,6 +409,39 @@ return [
         'crontab' => [
             // 如果要关掉这个扩展，设置为false
             'enable' => true,
-        ]
+        ],
+        'iframe-tabs' => [
+            // Set to `false` if you want to disable this extension
+             'enable' => true,
+             // The controller and action of dashboard page `/admin/dashboard`
+             'home_action' => App\Admin\Controllers\HomeController::class . '@index',
+             // Default page tab-title
+             'home_title' => 'Home',
+             // Default page tab-title icon
+             'home_icon' => 'fa-home',
+             // Whether show icon befor titles for all tab
+             'use_icon' => true,
+             // dashboard css
+             'tabs_css' =>'vendor/laravel-admin-ext/iframe-tabs/dashboard.css',
+             // layer.js path
+             'layer_path' => 'vendor/laravel-admin-ext/iframe-tabs/layer/layer.js',
+             /**
+              * href links do not open in tab .
+              * selecter : .sidebar-menu li a,.navbar-nav>li a,.sidebar .user-panel a,.sidebar-form .dropdown-menu li a
+              * if(href.indexOf(pass_urls[i]) > -1) //pass
+              */
+             'pass_urls' => ['/auth/logout', '/auth/lock'],
+             // When login session state of a tab-page was expired , force top-level window goto login page .
+             //登录超时是是否强制整体跳转到登录页面，设为false的话只在触发超时登录的页面跳转，最大程度保留已打开页面。
+             'force_login_in_top' => true,
+             // tabs left offset
+             'tabs_left'  => 42,
+             // bind click event of table actions [edit / view]  
+             'bind_urls' => 'popup', //[ popup / new_tab / none]
+             //table actions dom selecter
+             'bind_selecter' => 'a.grid-row-view,a.grid-row-edit,.column-__actions__ ul.dropdown-menu a,.box-header .pull-right .btn-success,.popup',
+             //table action links [view edit] and create button ,and any thing has class pupop : <a class="pupop" popw="400px" poph="200px" href="someurl">mylink</a>
+             'layer_size' => '1100px,98%',
+         ]
     ],
 ];
