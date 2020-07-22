@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "452ed172a416900fcdc27ad359665148",
+    "content-hash": "1363de7bd229f48a67c6e64bc64ae018",
     "packages": [
         {
             "name": "arrowjustdoit/crontab",
@@ -1195,6 +1195,60 @@
             "time": "2020-07-21T13:25:52+00:00"
         },
         {
+            "name": "laravel-admin-ext/backup",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/backup.git",
+                "reference": "d3ac91864d6a15e090b34460613710c9ab3526d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/backup/zipball/d3ac91864d6a15e090b34460613710c9ab3526d5",
+                "reference": "d3ac91864d6a15e090b34460613710c9ab3526d5",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": ">=1.5",
+                "php": ">=7.0.0",
+                "spatie/laravel-backup": ">=5.0"
+            },
+            "require-dev": {
+                "laravel/laravel": "~5.5",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Admin\\Backup\\BackupServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\Backup\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "z-song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Backup extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-extensions/backup",
+            "keywords": [
+                "backup",
+                "laravel-admin"
+            ],
+            "time": "2019-12-11T02:50:11+00:00"
+        },
+        {
             "name": "laravel-admin-ext/ckeditor",
             "version": "v1.0.1",
             "source": {
@@ -1247,6 +1301,114 @@
                 "laravel-admin"
             ],
             "time": "2018-11-03T06:08:00+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/grid-sortable",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/grid-sortable.git",
+                "reference": "d7245c250dbfa1d712fdad93dbf435514713a717"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/grid-sortable/zipball/d7245c250dbfa1d712fdad93dbf435514713a717",
+                "reference": "d7245c250dbfa1d712fdad93dbf435514713a717",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": ">=1.7.2",
+                "php": ">=7.0.0",
+                "spatie/eloquent-sortable": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Admin\\GridSortable\\GridSortableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\GridSortable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "z-song",
+                    "email": "zsong@126.com"
+                }
+            ],
+            "description": "Sort the grid data by drag and drop rows",
+            "homepage": "https://github.com/laravel-admin-ext/grid-sortable",
+            "keywords": [
+                "extension",
+                "grid",
+                "laravel-admin",
+                "sortable"
+            ],
+            "time": "2020-02-18T03:06:20+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/media-manager",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/media-manager.git",
+                "reference": "08ef816da82e543f7519d6b17aa34f1ef13adaab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/media-manager/zipball/08ef816da82e543f7519d6b17aa34f1ef13adaab",
+                "reference": "08ef816da82e543f7519d6b17aa34f1ef13adaab",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Admin\\Media\\MediaServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Admin\\Media\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "z-song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Media manager for laravel",
+            "homepage": "https://github.com/laravel-admin-extensions/media-manager",
+            "keywords": [
+                "laravel-admin",
+                "manager",
+                "media"
+            ],
+            "time": "2019-10-14T09:05:25+00:00"
         },
         {
             "name": "laravel-admin-ext/redis-manager",
@@ -1305,16 +1467,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.20.0",
+            "version": "v7.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "682ea946bc136aa686d5a64940ab3d4a24d5a613"
+                "reference": "3ccdb116524de408fdc00715b6f06a1031ddace9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/682ea946bc136aa686d5a64940ab3d4a24d5a613",
-                "reference": "682ea946bc136aa686d5a64940ab3d4a24d5a613",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3ccdb116524de408fdc00715b6f06a1031ddace9",
+                "reference": "3ccdb116524de408fdc00715b6f06a1031ddace9",
                 "shasum": ""
             },
             "require": {
@@ -1458,7 +1620,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-07-14T13:42:44+00:00"
+            "time": "2020-07-21T14:26:42+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2716,6 +2878,250 @@
                 }
             ],
             "time": "2020-03-29T20:13:32+00:00"
+        },
+        {
+            "name": "spatie/db-dumper",
+            "version": "2.16.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/db-dumper.git",
+                "reference": "56448e8f41d4e8e83babf701d5708b1e597e8ec6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/56448e8f41d4e8e83babf701d5708b1e597e8ec6",
+                "reference": "56448e8f41d4e8e83babf701d5708b1e597e8ec6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2",
+                "symfony/process": "^4.2|^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\DbDumper\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Dump databases",
+            "homepage": "https://github.com/spatie/db-dumper",
+            "keywords": [
+                "database",
+                "db-dumper",
+                "dump",
+                "mysqldump",
+                "spatie"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/spatie",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-05-06T14:32:38+00:00"
+        },
+        {
+            "name": "spatie/eloquent-sortable",
+            "version": "3.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/eloquent-sortable.git",
+                "reference": "18451ecf44b28a14ac0ed8803d0f5195a78a48a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/eloquent-sortable/zipball/18451ecf44b28a14ac0ed8803d0f5195a78a48a2",
+                "reference": "18451ecf44b28a14ac0ed8803d0f5195a78a48a2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.8.0|^6.0|^7.0",
+                "illuminate/support": "~5.8.0|^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.8.0|^4.0|^5.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\EloquentSortable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be"
+                }
+            ],
+            "description": "Sortable behaviour for eloquent models",
+            "homepage": "https://github.com/spatie/eloquent-sortable",
+            "keywords": [
+                "behaviour",
+                "eloquent",
+                "laravel",
+                "model",
+                "sort",
+                "sortable"
+            ],
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-07-08T00:05:43+00:00"
+        },
+        {
+            "name": "spatie/laravel-backup",
+            "version": "6.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-backup.git",
+                "reference": "3ede36961b79b6ea4a6b5f708f2cc60fee74ad6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/3ede36961b79b6ea4a6b5f708f2cc60fee74ad6c",
+                "reference": "3ede36961b79b6ea4a6b5f708f2cc60fee74ad6c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.8.15|^6.0|^7.0",
+                "illuminate/contracts": "^5.8.15|^6.0|^7.0",
+                "illuminate/events": "^5.8.15|^6.0|^7.0",
+                "illuminate/filesystem": "^5.8.15|^6.0|^7.0",
+                "illuminate/notifications": "^5.8.15|^6.0|^7.0",
+                "illuminate/support": "^5.8.15|^6.0|^7.0",
+                "league/flysystem": "^1.0.49",
+                "php": "^7.2",
+                "spatie/db-dumper": "^2.12",
+                "spatie/temporary-directory": "^1.1",
+                "symfony/finder": "^4.2|^5.0"
+            },
+            "require-dev": {
+                "laravel/slack-notification-channel": "^1.0",
+                "league/flysystem-aws-s3-v3": "^1.0",
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "3.8.*|4.*|5.*",
+                "phpunit/phpunit": "^8.4|^9.0"
+            },
+            "suggest": {
+                "laravel/slack-notification-channel": "Required for sending notifications via Slack"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Backup\\BackupServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Backup\\": "src"
+                },
+                "files": [
+                    "src/Helpers/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel package to backup your application",
+            "homepage": "https://github.com/spatie/laravel-backup",
+            "keywords": [
+                "backup",
+                "database",
+                "laravel-backup",
+                "spatie"
+            ],
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-18T09:59:06+00:00"
+        },
+        {
+            "name": "spatie/temporary-directory",
+            "version": "1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/temporary-directory.git",
+                "reference": "eeb84a7a3543e90759cd852ccb468e3d3340d99d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/eeb84a7a3543e90759cd852ccb468e3d3340d99d",
+                "reference": "eeb84a7a3543e90759cd852ccb468e3d3340d99d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\TemporaryDirectory\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily create, use and destroy temporary directories",
+            "homepage": "https://github.com/spatie/temporary-directory",
+            "keywords": [
+                "spatie",
+                "temporary-directory"
+            ],
+            "time": "2020-06-08T08:58:45+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

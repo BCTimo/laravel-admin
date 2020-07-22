@@ -26,7 +26,7 @@ class VideoController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Video());
-        
+        $grid->sortable();
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
         $grid->column('video_size', '檔案大小')->display(function($video_size){
@@ -41,6 +41,8 @@ class VideoController extends AdminController
         $grid->column('updated_at','最後更新時間')->display(function($updated_at){
             return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
         });
+
+        
         /*README
             https://laravel-admin.org/docs/zh/model-grid
         $grid->model()->where('id', '>', 100);
@@ -93,8 +95,6 @@ class VideoController extends AdminController
         $form = new Form(new Video());
         $form->text("name",'标题')->required();
         $form->number("price",'價格');
-        $form->switch('status', '发布？');
-
     // $form->tagsinput('values', '可选值');
     
         // $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
@@ -109,7 +109,7 @@ class VideoController extends AdminController
 
 
         $form->ckeditor('content','內容說明');
-
+        $form->switch('status', '发布？');
         $form->display("created_at",'建立時間');
         $form->display("updated_at",'最後更新時間');
 
