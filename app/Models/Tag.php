@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class Video extends Model implements Sortable
+class Tag extends Model implements Sortable
 {
     use SortableTrait;
 
@@ -15,4 +15,5 @@ class Video extends Model implements Sortable
         'sort_when_creating' => true,
     ];
 
+    
 }

@@ -8,6 +8,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Carbon\Carbon;
+use App\Models\Tag;
 
 class VideoController extends AdminController
 {
@@ -32,6 +33,7 @@ class VideoController extends AdminController
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
+        //$grid->tags()->pluck('name')->label();
         $grid->column('video_path','檔案下載')->downloadable();
         $grid->column('video_size', '檔案大小')->filesize();
         $grid->column('price', '價格')->editable();
@@ -102,7 +104,7 @@ class VideoController extends AdminController
         $form->text("name",'标题')->required();
         $form->number("price",'價格');
     // $form->tagsinput('values', '可选值');
-    
+//$form->multipleSelect('tags')->options(Tag::all());
         // $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
         //$form->multipleSelect('tags','標籤')->options(Tag::all()->pluck('name', 'id'));
         $form->file('video_path','視頻')->required();
