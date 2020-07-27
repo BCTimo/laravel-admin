@@ -91,6 +91,16 @@ class AdminPermissionsTableSeeder extends Seeder
                 'created_at' => '2020-07-22 16:33:09',
                 'updated_at' => '2020-07-22 16:33:09',
             ),
+            7 => 
+            array (
+                'id' => 8,
+                'name' => 'Logs',
+                'slug' => 'ext.log-viewer',
+                'http_method' => '',
+                'http_path' => '/logs*',
+                'created_at' => '2020-07-23 15:28:43',
+                'updated_at' => '2020-07-23 15:28:43',
+            ),
         ));
         
         

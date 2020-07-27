@@ -32,12 +32,21 @@ class VideoController extends AdminController
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
-        $grid->column('video_size', '檔案大小')->display(function($video_size){
-        return round($video_size/1024/1024) ." Mb";
-        });
+        $grid->column('video_path','檔案下載')->downloadable();
+        $grid->column('video_size', '檔案大小')->filesize();
         $grid->column('price', '價格')->editable();
-        $grid->column('status', '上架狀態')->using(['0' => '<font color="red">未上架</font>', '1' => '<font color="blue">上架</font>']);
-        $grid->column('hot','熱門')->using(['0' => '無', '1' => '<font color="blue">熱門</font>']);
+        // $grid->column('status', '上架狀態')->using(['0' => '<font color="red">未上架</font>', '1' => '<font color="blue">上架</font>']);
+        $status_list = [
+            'on'  => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '未上架', 'color' => 'default'],
+        ];
+        $grid->column('status','上架狀態')->switch($status_list);
+        // $grid->column('hot','熱門')->using(['0' => '無', '1' => '<font color="blue">熱門</font>']);
+        $hot_list = [
+            'on'  => ['value' => 1, 'text' => '熱門', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '一般', 'color' => 'default'],
+        ];
+        $grid->column('hot','熱門')->switch($hot_list);
         $grid->column('created_at','建立時間')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
@@ -47,6 +56,11 @@ class VideoController extends AdminController
 
         
         
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+            // $actions->disableDelete();
+            // $actions->disableEdit();
+        });
 
         return $grid;
     }
@@ -61,18 +75,18 @@ class VideoController extends AdminController
     {
         $show = new Show(Video::findOrFail($id));
 
-        $show->field('id', 'ID');
-        $show->field('name', '标题');
+        // $show->field('id', 'ID');
+        // $show->field('name', '标题');
         
-        $show->field('tags');
-        $show->field('content');
+        // $show->field('tags');
+        // $show->field('content');
 
-        $show->field('created_at')->display(function($created_at){
-            return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
-        });;
-        $show->field('updated_at')->display(function($updated_at){
-            return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
-        });;
+        // $show->field('created_at')->display(function($created_at){
+        //     return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
+        // });;
+        // $show->field('updated_at')->display(function($updated_at){
+        //     return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
+        // });;
 
         return $show;
     }
@@ -84,9 +98,6 @@ class VideoController extends AdminController
      */
     protected function form()
     {
-    
-
-
         $form = new Form(new Video());
         $form->text("name",'标题')->required();
         $form->number("price",'價格');
@@ -120,7 +131,7 @@ class VideoController extends AdminController
             $footer->disableReset();
             $footer->disableViewCheck();
             $footer->disableEditingCheck();
-            //$footer->disableCreatingCheck();
+            $footer->disableCreatingCheck();
         });
         
         return $form;
