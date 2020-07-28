@@ -15,8 +15,9 @@ class VideoTags extends Migration
     {
         Schema::create('video_tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('taggable_id');
-            $table->string('taggable_type');
+            $table->unsignedInteger('video_tags_id');
+            $table->unsignedInteger('tag_id');
+            $table->string('video_tags_type');
             $table->timestamps();    
         });
 
