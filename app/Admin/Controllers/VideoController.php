@@ -33,7 +33,7 @@ class VideoController extends AdminController
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
-        //$grid->tags()->pluck('name')->label();
+        $grid->tags()->pluck('name')->label();
         $grid->column('video_path','檔案下載')->downloadable();
         $grid->column('video_size', '檔案大小')->filesize();
         $grid->column('price', '價格')->editable();
@@ -102,11 +102,9 @@ class VideoController extends AdminController
     {
         $form = new Form(new Video());
         $form->text("name",'标题')->required();
-        $form->number("price",'價格');
-    // $form->tagsinput('values', '可选值');
-//$form->multipleSelect('tags')->options(Tag::all());
+        $form->number("price",'價格')->min(0);
+        $form->multipleSelect('tags','標籤')->options(Tag::all()->pluck('name', 'id'));
         // $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
-        //$form->multipleSelect('tags','標籤')->options(Tag::all()->pluck('name', 'id'));
         $form->file('video_path','視頻')->required();
         $form->hidden('video_size');
         $form->saving(function ($form){
@@ -119,8 +117,9 @@ class VideoController extends AdminController
         $form->ckeditor('content','內容說明');
         $form->switch('status', '发布？');
         $form->switch('hot', '熱門');
-        $form->display("created_at",'建立時間');
-        $form->display("updated_at",'最後更新時間');
+        $form->datetime("created_at",'建立時間')->disable();
+        $form->datetime("updated_at",'最後更新時間')->disable();
+
 
         //功能開關
         $form->tools(function(Form\Tools $tools){

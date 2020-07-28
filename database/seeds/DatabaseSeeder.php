@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminRoleUsersTableSeeder::class);
         $this->call(CrontabTableSeeder::class);
         $this->call(AdminConfigTableSeeder::class);
+        $this->call(VideoTagsTableSeeder::class);
     }
 }

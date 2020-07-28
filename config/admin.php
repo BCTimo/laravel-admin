@@ -412,7 +412,8 @@ return [
         ],
         'iframe-tabs' => [
             // Set to `false` if you want to disable this extension
-             'enable' => true,
+             'enable' => false,
+
              // The controller and action of dashboard page `/admin/dashboard`
              'home_action' => App\Admin\Controllers\HomeController::class . '@index',
              // Default page tab-title

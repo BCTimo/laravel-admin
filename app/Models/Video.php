@@ -15,4 +15,8 @@ class Video extends Model implements Sortable
         'sort_when_creating' => true,
     ];
 
+    public function tags(){
+        return $this->morphToMany(Tag::class, 'video_tags');
+    }
+
 }
