@@ -22,6 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CrontabTableSeeder::class);
         $this->call(AdminConfigTableSeeder::class);
         $this->call(VideoTagsTableSeeder::class);
-        $this->call(DomainTableSeeder::class);
+        $this->call(DomainsTableSeeder::class);
     }
 }

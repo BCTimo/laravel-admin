@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Domain extends Migration
+class Domains extends Migration
 {
     /**
      * Run the migrations.
@@ -24,7 +24,7 @@ class Domain extends Migration
             $table->tinyInteger('ssl')->comment("是否https访问：1、是；0、否；");
             $table->tinyInteger('base64')->nullable()->comment("資源域名用加密欄位0:不加密1加密");
             
-            $table->dateTime('create_time')->comment("创建时间");
+            $table->dateTime('create_time')->nullable()->comment("创建时间");
             $table->dateTime('enable_time')->nullable()->comment("启用时间");
             $table->tinyInteger('platform')->nullable()->comment("使用平台：1、WAP；2、APP；3、微信；");
             $table->dateTime('expiration_time')->nullable()->comment("過期時間");
