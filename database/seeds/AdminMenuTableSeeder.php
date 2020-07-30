@@ -197,6 +197,18 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2020-07-27 14:07:04',
                 'updated_at' => '2020-07-27 14:07:24',
             ),
+            15 => 
+            array (
+                'id' => 18,
+                'parent_id' => 0,
+                'order' => 0,
+                'title' => '域名管理',
+                'icon' => 'fa-cloud',
+                'uri' => 'domains',
+                'permission' => NULL,
+                'created_at' => '2020-07-30 11:02:58',
+                'updated_at' => '2020-07-30 11:03:11',
+            ),
         ));
         
         
