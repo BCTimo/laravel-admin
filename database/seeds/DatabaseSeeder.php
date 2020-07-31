@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminConfigTableSeeder::class);
         $this->call(VideoTagsTableSeeder::class);
         $this->call(DomainsTableSeeder::class);
+        $this->call(VideofilesTableSeeder::class);
     }
 }
