@@ -19,4 +19,5 @@ class Video extends Model implements Sortable
         return $this->morphToMany(Tag::class, 'video_tags');
     }
 
+
 }

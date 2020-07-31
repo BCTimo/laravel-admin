@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Jobs\ProcessM3U8;
 use App\Models\Video;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -9,6 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Carbon\Carbon;
 use App\Models\Tag;
+use App\Models\videofiles;
 
 class VideoController extends AdminController
 {
@@ -26,6 +28,8 @@ class VideoController extends AdminController
      */
     protected function grid()
     {
+        //dd(Videofiles::where('vid',1)->get());
+        
         $grid = new Grid(new Video());
         /*README
             https://laravel-admin.org/docs/zh/model-grid
@@ -33,7 +37,8 @@ class VideoController extends AdminController
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', '标题')->editable();
-        $grid->tags()->pluck('name')->label();
+        $grid->tags('標籤')->pluck('name')->label();
+        
         $grid->column('video_path','檔案下載')->downloadable();
         $grid->column('video_size', '檔案大小')->filesize();
         $grid->column('price', '價格')->editable();
@@ -67,32 +72,7 @@ class VideoController extends AdminController
         return $grid;
     }
 
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Video::findOrFail($id));
-
-        // $show->field('id', 'ID');
-        // $show->field('name', '标题');
-        
-        // $show->field('tags');
-        // $show->field('content');
-
-        // $show->field('created_at')->display(function($created_at){
-        //     return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
-        // });;
-        // $show->field('updated_at')->display(function($updated_at){
-        //     return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D h:mm:ss");
-        // });;
-
-        return $show;
-    }
-
+  
     /**
      * Make a form builder.
      *
@@ -135,6 +115,22 @@ class VideoController extends AdminController
             $footer->disableCreatingCheck();
         });
         
+        
         return $form;
+    }
+    function convertM3U8(){
+        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
+        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
+
+        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2  -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8 2> /tmp/a";
+        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2  -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8 2>&1";
+        // $rr = shell_exec($cmd);
+        // dd($rr);
+
+        $source_path='/../../test.mp4';
+        $target_path='/../../MV/file.m3u8';
+        $key_info_path='/project/enc.keyinfo';
+        //$key_info_path='/../../enc.keyinfo';
+        ProcessM3U8::dispatch($source_path,$target_path,$key_info_path);
     }
 }
