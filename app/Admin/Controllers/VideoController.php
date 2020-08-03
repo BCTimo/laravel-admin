@@ -148,65 +148,11 @@ class VideoController extends AdminController
 
         
         //ProcessM3U8::dispatch($source_path,$target_path,$key_info_path)->onConnection('redis');
-        ProcessM3U8::dispatch($source_path,$target_path,$key_info_path);
+        ProcessM3U8::dispatch($source_path,$target_path,$key_info_path,$videoId);
 
         // Video::where('id',$videoId)->update(['m3u8_path'] => "done");
-        if(file_exists(public_path().'/MV/'.$videoId.'/file.m3u8')){
-
-            //產動態密鑰
-            $Video_iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
-            $Video_enckeyinfo = '
-                http://127.0.0.1/video/enc.key 
-                /project/enc.key
-                3c44008a7e2e5f0877c73ecfab3d0b43
-            ';
-            //File::put('/MV/'.$videoId.'/enc.keyinfo',$Video_enckeyinfo);
-            //塞入DB table
-            $video = Video::find($videoId);
-            $video->m3u8_path = '/MV/'.$videoId.'/file.m3u8';
-            $video->key_path = '/MV/'.$videoId.'/enc.keyinfo';
-            $video->iv = $Video_iv;
-            $video->save();
-
-
-            
-            $m3u8_info = $this->parseHLS(public_path().'/MV/'.$videoId.'/file.m3u8');
-            $video = Videofiles::where('vid',$videoId)->delete(); //更新刪除重做
-            foreach($m3u8_info['data'] as $v){
-                $videofile = new Videofiles;
-                $videofile->vid = $videoId;
-                $videofile->file_path = $v['url'];
-                $videofile->sec = $v['sec'];
-                $videofile->save();
-            };
-            
-        };
-
+        
     }
 
-    function parseHLS($file) {
-        $return = array();
-        $i = 0;
-        $handle = fopen($file, "r");
-        if($handle) {
-            while(($line = fgets($handle)) !== FALSE) {
-                if(strpos($line,"EXT-X-STREAM-INF") !== FALSE) {
-                    if ($c=preg_match_all ("/.*?(BANDWIDTH)(.*?)(,)(RESOLUTION)(.*?)(,)/is", $line, $matches)) {
-                        $return['data'][$i]['bandwidth'] = str_replace("=","",$matches[2][0]);
-                        $return['data'][$i]['resolution'] = str_replace("=","",$matches[5][0]);
-                    }
-                }
-                if(strpos($line,"EXTINF") !== FALSE) {
-                    $return['data'][$i]['sec'] = str_replace(array("\r","\n","#EXTINF:",","),"",$line);
-                 
-                }
-                if(strpos($line,".ts") !== FALSE) {
-                    $return['data'][$i]['url'] = str_replace(array("\r","\n"),"",$line);
-                    $i++;
-                }
-            }
-            fclose($handle);
-        }
-        return $return;
-    }
+    
 }
