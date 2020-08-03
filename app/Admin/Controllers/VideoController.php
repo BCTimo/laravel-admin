@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use Illuminate\Support\Facades\File;
 use App\Jobs\ProcessM3U8;
 use App\Models\Video;
 use Encore\Admin\Controllers\AdminController;
@@ -10,7 +11,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Carbon\Carbon;
 use App\Models\Tag;
-use App\Models\videofiles;
+use App\Models\Videofiles;
 
 class VideoController extends AdminController
 {
@@ -72,7 +73,8 @@ class VideoController extends AdminController
         return $grid;
     }
 
-  
+    
+    
     /**
      * Make a form builder.
      *
@@ -80,7 +82,8 @@ class VideoController extends AdminController
      */
     protected function form()
     {
-        
+        // $m3u8_info = $this->parseHLS(public_path().'/MV/41/file.m3u8');
+        // dd($m3u8_info['data'][0]['sec']);
         $form = new Form(new Video());
         $form->text("name",'标题')->required();
         $form->number("price",'價格')->min(0);
@@ -129,24 +132,81 @@ class VideoController extends AdminController
         //保存后回调
         $form->saved(function (Form $form) {
             $video_path ='/upload/'. $form->model()->getOriginal()['video_path'];
-            $filePathFromId = $form->model()->getOriginal()['id'];
-            $this->convertM3U8($video_path,$filePathFromId);
-
-
-            //動態密鑰
-            //解析m3u8
-            //塞入DB table
+            $videoId = $form->model()->getOriginal()['id'];
+            $this->convertM3U8($video_path,$videoId);
 
         });
 
 
         return $form;
     }
-    private function convertM3U8($video_path,$filePathFromId){
+    private function convertM3U8($video_path,$videoId){
         // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
         $source_path = $video_path;//$key_info_path=public_path('key/').'enc.keyinfo';
-        $target_path='/MV/'.$filePathFromId.'/file.m3u8';//$target_path=base_path("public/MV/").'file.m3u8';
+        $target_path='/MV/'.$videoId.'/file.m3u8';//$target_path=base_path("public/MV/").'file.m3u8';
         $key_info_path=base_path('key/').'enc.keyinfo';//$key_info_path='/project/enc.keyinfo';
+
+        
+        //ProcessM3U8::dispatch($source_path,$target_path,$key_info_path)->onConnection('redis');
         ProcessM3U8::dispatch($source_path,$target_path,$key_info_path);
+
+        // Video::where('id',$videoId)->update(['m3u8_path'] => "done");
+        if(file_exists(public_path().'/MV/'.$videoId.'/file.m3u8')){
+
+            //產動態密鑰
+            $Video_iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
+            $Video_enckeyinfo = '
+                http://127.0.0.1/video/enc.key 
+                /project/enc.key
+                3c44008a7e2e5f0877c73ecfab3d0b43
+            ';
+            //File::put('/MV/'.$videoId.'/enc.keyinfo',$Video_enckeyinfo);
+            //塞入DB table
+            $video = Video::find($videoId);
+            $video->m3u8_path = '/MV/'.$videoId.'/file.m3u8';
+            $video->key_path = '/MV/'.$videoId.'/enc.keyinfo';
+            $video->iv = $Video_iv;
+            $video->save();
+
+
+            
+            $m3u8_info = $this->parseHLS(public_path().'/MV/'.$videoId.'/file.m3u8');
+            $video = Videofiles::where('vid',$videoId)->delete(); //更新刪除重做
+            foreach($m3u8_info['data'] as $v){
+                $videofile = new Videofiles;
+                $videofile->vid = $videoId;
+                $videofile->file_path = $v['url'];
+                $videofile->sec = $v['sec'];
+                $videofile->save();
+            };
+            
+        };
+
+    }
+
+    function parseHLS($file) {
+        $return = array();
+        $i = 0;
+        $handle = fopen($file, "r");
+        if($handle) {
+            while(($line = fgets($handle)) !== FALSE) {
+                if(strpos($line,"EXT-X-STREAM-INF") !== FALSE) {
+                    if ($c=preg_match_all ("/.*?(BANDWIDTH)(.*?)(,)(RESOLUTION)(.*?)(,)/is", $line, $matches)) {
+                        $return['data'][$i]['bandwidth'] = str_replace("=","",$matches[2][0]);
+                        $return['data'][$i]['resolution'] = str_replace("=","",$matches[5][0]);
+                    }
+                }
+                if(strpos($line,"EXTINF") !== FALSE) {
+                    $return['data'][$i]['sec'] = str_replace(array("\r","\n","#EXTINF:",","),"",$line);
+                 
+                }
+                if(strpos($line,".ts") !== FALSE) {
+                    $return['data'][$i]['url'] = str_replace(array("\r","\n"),"",$line);
+                    $i++;
+                }
+            }
+            fclose($handle);
+        }
+        return $return;
     }
 }

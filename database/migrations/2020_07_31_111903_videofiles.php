@@ -12,7 +12,7 @@ class Videofiles extends Migration
             $table->increments('id')->comment("主键");
             $table->string('vid')->comment("視頻id");
             $table->string('file_path')->comment("ts_path");
-            $table->string('sec')->comment("second");
+            $table->float('sec')->comment("second");
             $table->timestamps();
         });
     }

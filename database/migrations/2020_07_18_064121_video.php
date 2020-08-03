@@ -24,6 +24,8 @@ class Video extends Migration
             $table->integer('status')->nullable();
             $table->integer('hot')->nullable();
             $table->integer('sort')->nullable();
+            $table->string('key_path',100)->nullable();
+            $table->string('iv',50)->nullable();
             $table->timestamps();
         });
     }
