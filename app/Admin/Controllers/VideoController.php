@@ -80,6 +80,7 @@ class VideoController extends AdminController
      */
     protected function form()
     {
+        
         $form = new Form(new Video());
         $form->text("name",'标题')->required();
         $form->number("price",'價格')->min(0);
@@ -128,8 +129,11 @@ class VideoController extends AdminController
         //保存后回调
         $form->saved(function (Form $form) {
             $video_path ='/upload/'. $form->model()->getOriginal()['video_path'];
-            $this->convertM3U8($video_path);
+            $filePathFromId = $form->model()->getOriginal()['id'];
+            $this->convertM3U8($video_path,$filePathFromId);
 
+
+            //動態密鑰
             //解析m3u8
             //塞入DB table
 
@@ -138,21 +142,11 @@ class VideoController extends AdminController
 
         return $form;
     }
-    private function convertM3U8($video_path){
+    private function convertM3U8($video_path,$filePathFromId){
         // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
-        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
-
-        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2  -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8 2> /tmp/a";
-        // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2  -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8 2>&1";
-        // $rr = shell_exec($cmd);
-        // dd($rr);
-
-        //$source_path='/../../test.mp4';
-        $source_path = $video_path;
-        // $target_path='/../../MV/file.m3u8';
-        $target_path='/MV/file.m3u8';
-        $key_info_path='/project/enc.keyinfo';
-        //$key_info_path='/../../enc.keyinfo';
+        $source_path = $video_path;//$key_info_path=public_path('key/').'enc.keyinfo';
+        $target_path='/MV/'.$filePathFromId.'/file.m3u8';//$target_path=base_path("public/MV/").'file.m3u8';
+        $key_info_path=base_path('key/').'enc.keyinfo';//$key_info_path='/project/enc.keyinfo';
         ProcessM3U8::dispatch($source_path,$target_path,$key_info_path);
     }
 }
