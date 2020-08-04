@@ -56,8 +56,8 @@ class ProcessM3U8 implements ShouldQueue
         File::isDirectory($directory) or File::makeDirectory($directory);
         Log::info('圖片採集 Start');
         $get_img = 'ffmpeg -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.public_path().'/MV/'.$this->videoId.'/image-%d.jpeg';
-        exec($cmd,$res);
-        Log::info('圖片採集 End'.$res);
+        exec($get_img,$res);
+        Log::info('圖片採集 End');
         $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$this->keyinfo.' -hls_playlist_type vod -hls_segment_filename '.public_path().'/MV/'.$this->videoId.'/file%d.ts '.public_path().'/MV/'.$this->videoId.'/file.m3u8';
         exec($cmd,$res);
         Log::info('================Queue===執行轉換 End  ===================');
