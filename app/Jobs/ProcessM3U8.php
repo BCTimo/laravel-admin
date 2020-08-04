@@ -51,41 +51,47 @@ class ProcessM3U8 implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('執行轉換:'.public_path().$this->output);
-        ini_set('memory_limit',$this->memory.'M');
-        $ffmpeg = FFMpeg\FFMpeg::create([
-            'ffmpeg.binaries'  => '/usr/bin/ffmpeg',//exec('which ffmpeg'),
-            'ffprobe.binaries' => '/usr/bin/ffprobe',//exec('which ffprobe'),
-            'timeout'          => $this->timeout,
-            'ffmpeg.threads'   => $this->threads,
-        ]);
-        //ffmpeg -y -i /project/fuck.avi -hls_time 20 -hls_key_info_file enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8
-        $video = $ffmpeg->open(public_path().$this->input);
-        $format = new FFMpeg\Format\Video\X264('aac', 'libx264');
-        $format
-            ->setAdditionalParameters(['-hls_time',$this->section, '-hls_playlist_type','vod'])
-            ->setAdditionalParameters(['-hls_key_info_file',$this->keyinfo])
-            // ->setAdditionalParameters(['-hls_segment_filename','/project/MV/xx%d.ts','/project/MV/vv.m3u8'])
-            ->setKiloBitrate(1000)
-            ->setAudioChannels(2)
-            ->setAudioKiloBitrate(256)
-            ->setPasses(2);
-        $format->on('progress', function ($video, $format, $percentage) {
-            if ($percentage > $this->progress){
-                Log::info('轉換進度:'.$percentage.'%');
-                $this->progress = $percentage;
-            }
-        });
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
-        try {
-            $video->save($format, public_path().$this->output);
-        } catch (\Exception $e) {
-            Log::error('錯誤:'.$e->getMessage());
-        } finally {
-            $this->result = $this->output;
-            Log::info('轉換成功:'.public_path().$this->output);
-        }
+
+        $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$this->keyinfo.' -hls_playlist_type vod -hls_segment_filename '.public_path().'/MV/'.$this->videoId.'/file%d.ts '.public_path().'/MV/'.$this->videoId.'/file.m3u8';
+        exec($cmd,$res);
+        //dd($res);
+        // Log::info('執行轉換:'.public_path().$this->output);
+        // ini_set('memory_limit',$this->memory.'M');
+        // $ffmpeg = FFMpeg\FFMpeg::create([
+        //     'ffmpeg.binaries'  => '/usr/bin/ffmpeg',//exec('which ffmpeg'),
+        //     'ffprobe.binaries' => '/usr/bin/ffprobe',//exec('which ffprobe'),
+        //     'timeout'          => $this->timeout,
+        //     'ffmpeg.threads'   => $this->threads,
+        // ]);
+        // //ffmpeg -y -i /project/fuck.avi -hls_time 20 -hls_key_info_file enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8
+        // $video = $ffmpeg->open(public_path().$this->input);
+        // $format = new FFMpeg\Format\Video\X264('aac', 'libx264');
+        // $format
+        //     ->setAdditionalParameters(['-hls_time',$this->section, '-hls_playlist_type','vod'])
+        //     ->setAdditionalParameters(['-hls_key_info_file',$this->keyinfo])
+        //     // ->setAdditionalParameters(['-hls_segment_filename ',public_path().'/MV/'.$this->videoId.'/xx%d.ts ',public_path().'/MV/'.$this->videoId.'/vv.m3u8'])
+        //     ->setKiloBitrate(1000)
+        //     ->setAudioChannels(2)
+        //     ->setAudioKiloBitrate(256)
+        //     ->setPasses(2);
+        // $format->on('progress', function ($video, $format, $percentage) {
+        //     if ($percentage > $this->progress){
+        //         Log::info('轉換進度:'.$percentage.'%');
+        //         $this->progress = $percentage;
+        //     }
+        // });
+        // $directory = pathinfo(public_path().$this->output)['dirname'];
+        // File::isDirectory($directory) or File::makeDirectory($directory);
+        // try {
+        //     $video->save($format, public_path().$this->output);
+        // } catch (\Exception $e) {
+        //     Log::error('錯誤:'.$e->getMessage());
+        // } finally {
+        //     $this->result = $this->output;
+        //     Log::info('轉換成功:'.public_path().$this->output);
+        // }
         
         if(file_exists(public_path().'/MV/'.$this->videoId.'/file.m3u8')){
             Log::info('M3U8 檔案存在');
