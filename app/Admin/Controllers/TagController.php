@@ -31,6 +31,7 @@ class TagController extends AdminController
         $grid->column('id', 'ID')->sortable();
         $grid->column('name', __('標籤'))->editable();
         $grid->column('top', '置頂')->switch();
+        $grid->column('type', '分類')->switch();
         $grid->column('created_at','建立時間')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
@@ -78,6 +79,7 @@ class TagController extends AdminController
 
         $form->text('name', '標籤名稱');
         $form->switch('top', '置頂');
+        $form->switch('type', '分類');
 
         //功能開關
         $form->tools(function(Form\Tools $tools){

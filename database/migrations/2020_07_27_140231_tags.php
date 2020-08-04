@@ -17,6 +17,7 @@ class Tags extends Migration
             $table->increments('id');
             $table->string('name',100)->nullable();
             $table->integer('top');
+            $table->integer('type');
             $table->integer('sort')->nullable();
             $table->timestamps();
         });
