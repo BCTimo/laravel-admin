@@ -127,7 +127,7 @@ class ProcessM3U8 implements ShouldQueue
             Log::info('id: '.$this->videoId.' videos更新中');
             $video = Video::find($this->videoId);
             $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
-            $video->key_path = '/MV/'.$this->videoId.'/enc.keyinfo';
+            $video->key_path = '/MV/'.$this->videoId.'/enc.key';
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();
