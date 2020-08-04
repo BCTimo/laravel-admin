@@ -70,6 +70,12 @@ class VideoController extends AdminController
             // $actions->disableEdit();
         });
 
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+            // 在这里添加字段过滤器
+            //$filter->like('name', 'name');
+        });
         return $grid;
     }
 
