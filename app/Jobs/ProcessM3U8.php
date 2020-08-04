@@ -106,7 +106,7 @@ class ProcessM3U8 implements ShouldQueue
             foreach($m3u8_info['data'] as $v){
                 $videofile = new Videofiles;
                 $videofile->vid = $this->videoId;
-                $videofile->file_path = $v['url'];
+                $videofile->file_path = 'MV/'.$videoId.'/'.$v['url'];
                 $videofile->sec = $v['sec'];
                 $total_sec += $v['sec'];
                 $videofile->save();
