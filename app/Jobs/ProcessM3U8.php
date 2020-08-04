@@ -98,26 +98,29 @@ class ProcessM3U8 implements ShouldQueue
             ';
             //File::put('/MV/'.$this->videoId.'/enc.keyinfo',$Video_enckeyinfo);
             //塞入DB table
-            Log::info('DB更新中');
-            $video = Video::find($this->videoId);
-            $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
-            $video->key_path = '/MV/'.$this->videoId.'/enc.keyinfo';
-            $video->iv = $Video_iv;
-            $video->save();
-            Log::info('DB更新完成');
-
             
             Log::info('.ts資料寫入');
             $m3u8_info = $this->parseHLS(public_path().'/MV/'.$this->videoId.'/file.m3u8');
             $video = Videofiles::where('vid',$this->videoId)->delete(); //更新刪除重做
+            $total_sec = 0;
             foreach($m3u8_info['data'] as $v){
                 $videofile = new Videofiles;
                 $videofile->vid = $this->videoId;
                 $videofile->file_path = $v['url'];
                 $videofile->sec = $v['sec'];
+                $total_sec += $v['sec'];
                 $videofile->save();
             };
             Log::info('.ts資料寫入完成');
+
+            Log::info('videos更新中');
+            $video = Video::find($this->videoId);
+            $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
+            $video->key_path = '/MV/'.$this->videoId.'/enc.keyinfo';
+            $video->iv = $Video_iv;
+            $video->m3u8_secs = $total_sec;
+            $video->save();
+            Log::info('videos更新完成');
         }else{
             Log::error('M3U8 檔案不存在:'.public_path().'/MV/'.$this->videoId.'/file.m3u8');   
         };
