@@ -51,11 +51,13 @@ class ProcessM3U8 implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('================Queue===執行轉換 Start===================');
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
 
         $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$this->keyinfo.' -hls_playlist_type vod -hls_segment_filename '.public_path().'/MV/'.$this->videoId.'/file%d.ts '.public_path().'/MV/'.$this->videoId.'/file.m3u8';
         exec($cmd,$res);
+        Log::info('================Queue===執行轉換 End  ===================');
         //dd($res);
         // Log::info('執行轉換:'.public_path().$this->output);
         // ini_set('memory_limit',$this->memory.'M');
@@ -94,7 +96,7 @@ class ProcessM3U8 implements ShouldQueue
         // }
         
         if(file_exists(public_path().'/MV/'.$this->videoId.'/file.m3u8')){
-            Log::info('M3U8 檔案存在');
+            Log::info('id: '.$this->videoId.' M3U8 檔案存在');
             //產動態密鑰
             $Video_iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
             $Video_enckeyinfo = '
@@ -105,28 +107,28 @@ class ProcessM3U8 implements ShouldQueue
             //File::put('/MV/'.$this->videoId.'/enc.keyinfo',$Video_enckeyinfo);
             //塞入DB table
             
-            Log::info('.ts資料寫入');
+            Log::info('id: '.$this->videoId.' .ts資料寫入');
             $m3u8_info = $this->parseHLS(public_path().'/MV/'.$this->videoId.'/file.m3u8');
             $video = Videofiles::where('vid',$this->videoId)->delete(); //更新刪除重做
             $total_sec = 0;
             foreach($m3u8_info['data'] as $v){
                 $videofile = new Videofiles;
                 $videofile->vid = $this->videoId;
-                $videofile->file_path = 'MV/'.$this->videoId.'/'.$v['url'];
+                $videofile->file_path = '/MV/'.$this->videoId.'/'.$v['url'];
                 $videofile->sec = $v['sec'];
                 $total_sec += $v['sec'];
                 $videofile->save();
             };
-            Log::info('.ts資料寫入完成');
+            Log::info('id: '.$this->videoId.' .ts資料寫入完成');
 
-            Log::info('videos更新中');
+            Log::info('id: '.$this->videoId.' videos更新中');
             $video = Video::find($this->videoId);
             $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
             $video->key_path = '/MV/'.$this->videoId.'/enc.keyinfo';
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();
-            Log::info('videos更新完成');
+            Log::info('id: '.$this->videoId.' videos更新完成');
         }else{
             Log::error('M3U8 檔案不存在:'.public_path().'/MV/'.$this->videoId.'/file.m3u8');   
         };
