@@ -54,7 +54,10 @@ class ProcessM3U8 implements ShouldQueue
         Log::info('================Queue===執行轉換 Start===================');
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
-
+        Log::info('圖片採集 Start');
+        $get_img = 'ffmpeg -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.public_path().'/MV/'.$this->videoId.'/image-%d.jpeg';
+        exec($cmd,$res);
+        Log::info('圖片採集 End'.$res);
         $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$this->keyinfo.' -hls_playlist_type vod -hls_segment_filename '.public_path().'/MV/'.$this->videoId.'/file%d.ts '.public_path().'/MV/'.$this->videoId.'/file.m3u8';
         exec($cmd,$res);
         Log::info('================Queue===執行轉換 End  ===================');
@@ -98,7 +101,7 @@ class ProcessM3U8 implements ShouldQueue
         if(file_exists(public_path().'/MV/'.$this->videoId.'/file.m3u8')){
             Log::info('id: '.$this->videoId.' M3U8 檔案存在');
             //產動態密鑰
-            $Video_iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
+            $Video_iv = '0x3c44008a7e2e5f0877c73ecfab3d0b43';
             $Video_enckeyinfo = '
                 enc.key 
                 /project/laravel-admin/key/enc.key
