@@ -51,14 +51,24 @@ class ProcessM3U8 implements ShouldQueue
      */
     public function handle()
     {
+
+        $MV_path = public_path().'/MV/'.$this->videoId;
+        //動態產生key
+        $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
+        exec($key_gen_cmd);
+
+        $keninfo_gen_cmd = 'echo -e "enc.key\n/project/laravel-admin/key/enc.key" > '.$MV_path.'/enc.keyinfo';
+        exec($keninfo_gen_cmd);
+
+
         Log::info('================Queue===執行轉換 Start===================');
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
         Log::info('圖片採集 Start');
-        $get_img = 'ffmpeg -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.public_path().'/MV/'.$this->videoId.'/image-%d.jpeg';
+        $get_img = 'ffmpeg -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.$MV_path.'/image-%d.jpeg';
         exec($get_img,$res);
         Log::info('圖片採集 End');
-        $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$this->keyinfo.' -hls_playlist_type vod -hls_segment_filename '.public_path().'/MV/'.$this->videoId.'/file%d.ts '.public_path().'/MV/'.$this->videoId.'/file.m3u8';
+        $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
         exec($cmd,$res);
         Log::info('================Queue===執行轉換 End  ===================');
         //dd($res);
@@ -76,7 +86,7 @@ class ProcessM3U8 implements ShouldQueue
         // $format
         //     ->setAdditionalParameters(['-hls_time',$this->section, '-hls_playlist_type','vod'])
         //     ->setAdditionalParameters(['-hls_key_info_file',$this->keyinfo])
-        //     // ->setAdditionalParameters(['-hls_segment_filename ',public_path().'/MV/'.$this->videoId.'/xx%d.ts ',public_path().'/MV/'.$this->videoId.'/vv.m3u8'])
+        //     // ->setAdditionalParameters(['-hls_segment_filename ',$MV_path.'/xx%d.ts ',$MV_path.'/vv.m3u8'])
         //     ->setKiloBitrate(1000)
         //     ->setAudioChannels(2)
         //     ->setAudioKiloBitrate(256)
@@ -98,7 +108,7 @@ class ProcessM3U8 implements ShouldQueue
         //     Log::info('轉換成功:'.public_path().$this->output);
         // }
         
-        if(file_exists(public_path().'/MV/'.$this->videoId.'/file.m3u8')){
+        if(file_exists($MV_path.'/file.m3u8')){
             Log::info('id: '.$this->videoId.' M3U8 檔案存在');
             //產動態密鑰
             $Video_iv = '0x3c44008a7e2e5f0877c73ecfab3d0b43';
@@ -111,7 +121,7 @@ class ProcessM3U8 implements ShouldQueue
             //塞入DB table
             
             Log::info('id: '.$this->videoId.' .ts資料寫入');
-            $m3u8_info = $this->parseHLS(public_path().'/MV/'.$this->videoId.'/file.m3u8');
+            $m3u8_info = $this->parseHLS($MV_path.'/file.m3u8');
             $video = Videofiles::where('vid',$this->videoId)->delete(); //更新刪除重做
             $total_sec = 0;
             foreach($m3u8_info['data'] as $v){
@@ -133,7 +143,7 @@ class ProcessM3U8 implements ShouldQueue
             $video->save();
             Log::info('id: '.$this->videoId.' videos更新完成');
         }else{
-            Log::error('M3U8 檔案不存在:'.public_path().'/MV/'.$this->videoId.'/file.m3u8');   
+            Log::error('M3U8 檔案不存在:'.$MV_path.'/file.m3u8');   
         };
         
     }
