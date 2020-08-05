@@ -57,7 +57,7 @@ class ProcessM3U8 implements ShouldQueue
         $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
         exec($key_gen_cmd);
 
-        $keninfo_gen_cmd = 'echo -e "enc.key\n/project/laravel-admin/key/enc.key" > '.$MV_path.'/enc.keyinfo';
+        $keninfo_gen_cmd = 'echo -e "enc.key\n/project/laravel-admin/key/enc.key\n0x3c44008a7e2e5f0877c73ecfab3d0b43" > '.$MV_path.'/enc.keyinfo';
         exec($keninfo_gen_cmd);
 
 
