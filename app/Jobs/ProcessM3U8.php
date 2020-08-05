@@ -36,11 +36,11 @@ class ProcessM3U8 implements ShouldQueue
      * @param string $input
      * @param string $output
      */
-    public function __construct(string $input,string $output,string $keyinfo, int $videoId)
+    public function __construct(string $input,string $output, int $videoId)
     {
         $this->input = $input;
         $this->output = $output;
-        $this->keyinfo = $keyinfo;
+        
         $this->videoId = $videoId;
     }
 
@@ -53,17 +53,23 @@ class ProcessM3U8 implements ShouldQueue
     {
 
         $MV_path = public_path().'/MV/'.$this->videoId;
+        $iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
         //動態產生key
-        $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
-        exec($key_gen_cmd);
 
-        $keninfo_gen_cmd = 'echo -e "enc.key\n/project/laravel-admin/key/enc.key\n0x3c44008a7e2e5f0877c73ecfab3d0b43" > '.$MV_path.'/enc.keyinfo';
-        exec($keninfo_gen_cmd);
-
-
-        Log::info('================Queue===執行轉換 Start===================');
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
+
+
+        $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
+        Log::info('****產enc.key****');
+        exec($key_gen_cmd);
+
+        Log::info('****產enc.keyinfo****');
+        $keninfo_gen_cmd = 'echo -e "enc.key\n'.$MV_path.'/enc.key\n'.$iv.'" > '.$MV_path.'/enc.keyinfo';
+        exec($keninfo_gen_cmd);
+
+        Log::info('================Queue===執行轉換 Start===================');
+
         Log::info('圖片採集 Start');
         $get_img = 'ffmpeg -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.$MV_path.'/image-%d.jpeg';
         exec($get_img,$res);

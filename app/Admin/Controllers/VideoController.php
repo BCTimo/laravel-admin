@@ -154,7 +154,7 @@ class VideoController extends AdminController
 
         
         //ProcessM3U8::dispatch($source_path,$target_path,$key_info_path)->onConnection('redis');
-        ProcessM3U8::dispatch($source_path,$target_path,$key_info_path,$videoId);
+        ProcessM3U8::dispatch($source_path,$target_path,$videoId);
 
         // Video::where('id',$videoId)->update(['m3u8_path'] => "done");
         
