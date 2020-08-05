@@ -71,8 +71,11 @@ class ProcessM3U8 implements ShouldQueue
         Log::info('================Queue===執行轉換 Start===================');
 
         Log::info('圖片採集 Start');
-        $get_img = 'ffmpeg -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.$MV_path.'/image-%d.jpeg';
+        $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
+        
+
         exec($get_img,$res);
+
         Log::info('圖片採集 End');
         $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
         exec($cmd,$res);
@@ -130,6 +133,15 @@ class ProcessM3U8 implements ShouldQueue
             $m3u8_info = $this->parseHLS($MV_path.'/file.m3u8');
             $video = Videofiles::where('vid',$this->videoId)->delete(); //更新刪除重做
             $total_sec = 0;
+
+            ///轉圖到base64存db
+            $path = $MV_path.'/title.jpeg';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $base64_img = 'data:image/' .  ';base64,' . base64_encode($data);
+
+            
+
             foreach($m3u8_info['data'] as $v){
                 $videofile = new Videofiles;
                 $videofile->vid = $this->videoId;
@@ -144,6 +156,7 @@ class ProcessM3U8 implements ShouldQueue
             $video = Video::find($this->videoId);
             $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
             $video->key_path = '/MV/'.$this->videoId.'/enc.key';
+            $video->base64_img = $base64_img;
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();
