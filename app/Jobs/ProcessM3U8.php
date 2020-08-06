@@ -51,6 +51,9 @@ class ProcessM3U8 implements ShouldQueue
      */
     public function handle()
     {
+
+        Log::info('================Queue===執行轉換 Start===================');
+        
         $MV_path = public_path().'/MV/'.$this->videoId;
         $iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
         //動態產生key
@@ -67,7 +70,7 @@ class ProcessM3U8 implements ShouldQueue
         $keninfo_gen_cmd = 'echo -e "enc.key\n'.$MV_path.'/enc.key\n'.$iv.'" > '.$MV_path.'/enc.keyinfo';
         exec($keninfo_gen_cmd);
 
-        Log::info('================Queue===執行轉換 Start===================');
+        
 
         Log::info('圖片採集 Start');
         $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
@@ -77,7 +80,7 @@ class ProcessM3U8 implements ShouldQueue
         Log::info('圖片採集 End');
         $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
         exec($cmd,$res);
-        Log::info('================Queue===執行轉換 End  ===================');
+        
         //dd($res);
         // Log::info('執行轉換:'.public_path().$this->output);
         // ini_set('memory_limit',$this->memory.'M');
@@ -166,6 +169,7 @@ class ProcessM3U8 implements ShouldQueue
         }else{
             Log::error('M3U8 檔案不存在:'.$MV_path.'/file.m3u8');   
         };
+        Log::info('================Queue===執行轉換 End  ===================');
         
     }
 
