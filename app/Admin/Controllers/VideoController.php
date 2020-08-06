@@ -35,13 +35,19 @@ class VideoController extends AdminController
         /*README
             https://laravel-admin.org/docs/zh/model-grid
         */
+        dd($grid);
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
+        $grid->column('img_path')->display(function ($images) {
+        })->map(function ($path) {
+            return public_path().'/MV/1/'. $path;
+        })->image();
+
         $grid->column('name', '标题')->editable();
         $grid->tags('標籤')->pluck('name')->label();
         
-        $grid->column('video_path','檔案下載')->downloadable();
-        $grid->column('video_size', '檔案大小')->filesize();
+        $grid->column('video_path','原檔下載')->downloadable();
+        $grid->column('video_size', '原檔大小')->filesize();
         $grid->column('price', '價格')->editable();
         // $grid->column('status', '上架狀態')->using(['0' => '<font color="red">未上架</font>', '1' => '<font color="blue">上架</font>']);
         $status_list = [
