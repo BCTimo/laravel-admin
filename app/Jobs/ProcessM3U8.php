@@ -142,20 +142,6 @@ class ProcessM3U8 implements ShouldQueue
             exec($toHtml);
 
 
-            // $data = file_get_contents($path);
-            // $base64_img = base64_encode($data);
-            
-            // $base65_img = $this->base65($base64_img);
-            // $base65_img = chunk_split($base65_img, 64, "\n");
-            // //產html檔來放
-            
-            // $myfile = fopen($MV_path.'/title.html', "w");
-            // $txtformat = 'data:image/jpeg;base64,';
-            // $txt = $base65_img;
-            // fwrite($myfile, $txtformat.$txt);
-            // fclose($myfile);
-            
-
             foreach($m3u8_info['data'] as $v){
                 $videofile = new Videofiles;
                 $videofile->vid = $this->videoId;
@@ -208,13 +194,4 @@ class ProcessM3U8 implements ShouldQueue
         return $return;
     }
 
-
-    function base65($str){
-        $str = base64_encode($str);
-        $str = str_replace("+", "*", $str);
-        $str = str_replace("/", "+", $str);
-        $str = str_replace("*", "/", $str);
-    
-        return $str;
-    }
 }

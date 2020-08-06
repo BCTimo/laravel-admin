@@ -101,6 +101,26 @@ class AdminPermissionsTableSeeder extends Seeder
                 'created_at' => '2020-07-23 15:28:43',
                 'updated_at' => '2020-07-23 15:28:43',
             ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'Video',
+                'slug' => '視頻',
+                'http_method' => '',
+                'http_path' => '/videos',
+                'created_at' => '2020-08-06 16:20:51',
+                'updated_at' => '2020-08-06 16:25:21',
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'tags',
+                'slug' => '標籤',
+                'http_method' => '',
+                'http_path' => '/tags',
+                'created_at' => '2020-08-06 16:21:43',
+                'updated_at' => '2020-08-06 16:25:12',
+            ),
         ));
         
         

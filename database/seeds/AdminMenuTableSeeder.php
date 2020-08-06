@@ -36,10 +36,10 @@ class AdminMenuTableSeeder extends Seeder
                 'order' => 10,
                 'title' => 'Admin',
                 'icon' => 'fa-tasks',
-                'uri' => '',
+                'uri' => NULL,
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2020-07-27 14:07:24',
+                'updated_at' => '2020-08-06 16:33:25',
             ),
             2 => 
             array (
@@ -109,9 +109,9 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '視頻管理',
                 'icon' => 'fa-video-camera',
                 'uri' => 'videos',
-                'permission' => NULL,
+                'permission' => '視頻',
                 'created_at' => '2020-07-21 10:04:24',
-                'updated_at' => '2020-07-27 14:07:24',
+                'updated_at' => '2020-08-06 16:24:01',
             ),
             8 => 
             array (
@@ -193,9 +193,9 @@ class AdminMenuTableSeeder extends Seeder
                 'title' => '標籤管理',
                 'icon' => 'fa-tags',
                 'uri' => 'tags',
-                'permission' => NULL,
+                'permission' => '標籤',
                 'created_at' => '2020-07-27 14:07:04',
-                'updated_at' => '2020-07-27 14:07:24',
+                'updated_at' => '2020-08-06 16:24:37',
             ),
             15 => 
             array (
