@@ -134,11 +134,10 @@ class ProcessM3U8 implements ShouldQueue
 
             ///轉圖到base64存db
             $path = $MV_path.'/title.jpeg';
-            $type = pathinfo($path, PATHINFO_EXTENSION);
             $data = file_get_contents($path);
-            $base64_img = 'data:image/' .  ';base64,' . base64_encode($data);
+            $base64_img = base64_encode($data);
             $base65_img = $this->base65($base64_img);
-
+            //產html檔來放
             $myfile = fopen($MV_path.'/title.html', "w");
             $txt = $base65_img;
             fwrite($myfile, $txt);
@@ -159,7 +158,7 @@ class ProcessM3U8 implements ShouldQueue
             $video = Video::find($this->videoId);
             $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
             $video->key_path = '/MV/'.$this->videoId.'/enc.key';
-            $video->base64_img = $base64_img;
+            $video->base64_img = 'title.jpeg';
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();
