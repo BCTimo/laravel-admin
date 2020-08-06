@@ -25,7 +25,7 @@ Grid::init(function (Grid $grid) {
     $grid->disableFilter();
     $grid->disableRowSelector();
     //$grid->disableColumnSelector();
-    $grid->disableTools();
+    //$grid->disableTools();
     $grid->disableExport();
     $grid->actions(function (Grid\Displayers\Actions $actions) {
         $actions->disableView();
