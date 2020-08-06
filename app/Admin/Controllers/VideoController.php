@@ -35,8 +35,10 @@ class VideoController extends AdminController
         /*README
             https://laravel-admin.org/docs/zh/model-grid
         */
+        
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
+        $grid->column('img_path','轉檔狀態')->image(env('APP_URL'), 100, 100);
         $grid->column('name', '标题')->editable();
         $grid->tags('標籤')->pluck('name')->label();
         
