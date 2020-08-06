@@ -54,7 +54,7 @@ class ProcessM3U8 implements ShouldQueue
 
         Log::info('================Queue===執行轉換 Start===================');
 
-        $MV_path = public_path().'/MV/'.$this->videoId;
+        $MV_path = public_path().'/mv/'.$this->videoId;
         $iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
         //動態產生key
 
@@ -127,7 +127,7 @@ class ProcessM3U8 implements ShouldQueue
                 /project/laravel-admin/key/enc.key
                 3c44008a7e2e5f0877c73ecfab3d0b43
             ';
-            //File::put('/MV/'.$this->videoId.'/enc.keyinfo',$Video_enckeyinfo);
+            //File::put('/mv/'.$this->videoId.'/enc.keyinfo',$Video_enckeyinfo);
             //塞入DB table
             
             Log::info('id: '.$this->videoId.' .ts資料寫入');
@@ -151,7 +151,7 @@ class ProcessM3U8 implements ShouldQueue
             foreach($m3u8_info['data'] as $v){
                 $videofile = new Videofiles;
                 $videofile->vid = $this->videoId;
-                $videofile->file_path = '/MV/'.$this->videoId.'/'.$v['url'];
+                $videofile->file_path = '/mv/'.$this->videoId.'/'.$v['url'];
                 $videofile->sec = $v['sec'];
                 $total_sec += $v['sec'];
                 $videofile->save();
@@ -160,9 +160,9 @@ class ProcessM3U8 implements ShouldQueue
 
             Log::info('id: '.$this->videoId.' videos更新中');
             $video = Video::find($this->videoId);
-            $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
-            $video->key_path = '/MV/'.$this->videoId.'/enc.key';
-            $video->img_path = '/MV/'.$this->videoId.'/title.jpeg';
+            $video->m3u8_path = '/mv/'.$this->videoId.'/file.m3u8';
+            $video->key_path = '/mv/'.$this->videoId.'/enc.key';
+            $video->img_path = '/mv/'.$this->videoId.'/title.jpeg';
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();

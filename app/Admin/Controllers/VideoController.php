@@ -151,7 +151,7 @@ class VideoController extends AdminController
     private function convertM3U8($video_path,$videoId){
         // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
         $source_path = $video_path;//$key_info_path=public_path('key/').'enc.keyinfo';
-        $target_path='/MV/'.$videoId.'/file.m3u8';//$target_path=base_path("public/MV/").'file.m3u8';
+        $target_path='/mv/'.$videoId.'/file.m3u8';//$target_path=base_path("public/MV/").'file.m3u8';
         $key_info_path=base_path('key/').'enc.keyinfo';//$key_info_path='/project/enc.keyinfo';
 
         
