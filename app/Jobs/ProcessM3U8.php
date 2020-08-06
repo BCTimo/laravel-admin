@@ -53,7 +53,7 @@ class ProcessM3U8 implements ShouldQueue
     {
 
         Log::info('================Queue===執行轉換 Start===================');
-        
+
         $MV_path = public_path().'/MV/'.$this->videoId;
         $iv = '3c44008a7e2e5f0877c73ecfab3d0b43';
         //動態產生key
@@ -161,7 +161,7 @@ class ProcessM3U8 implements ShouldQueue
             $video = Video::find($this->videoId);
             $video->m3u8_path = '/MV/'.$this->videoId.'/file.m3u8';
             $video->key_path = '/MV/'.$this->videoId.'/enc.key';
-            $video->base64_img = 'title.jpeg';
+            $video->img_path = '/MV/'.$this->videoId.'/title.jpeg';
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();
