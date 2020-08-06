@@ -139,8 +139,9 @@ class ProcessM3U8 implements ShouldQueue
             $path = $MV_path.'/title.jpeg';
             $data = file_get_contents($path);
             $base64_img = base64_encode($data);
-            $base64_img = chunk_split($base64_img, 64, "\n");
+            
             $base65_img = $this->base65($base64_img);
+            $base65_img = chunk_split($base65_img, 64, "\n");
             //產html檔來放
             $myfile = fopen($MV_path.'/title.html', "w");
             $txtformat = 'data:image/jpeg;base64,';
