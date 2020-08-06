@@ -138,7 +138,7 @@ class ProcessM3U8 implements ShouldQueue
             ///轉圖到base64存db
             // $path = $MV_path.'/title.jpeg';
 
-            $toHtml = "echo data:image/jpeg;base64, > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
+            $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
             exec($toHtml);
 
 
