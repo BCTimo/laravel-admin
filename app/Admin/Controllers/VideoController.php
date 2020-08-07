@@ -43,8 +43,9 @@ class VideoController extends AdminController
         $grid->tags('標籤')->pluck('name')->label();
         
         $grid->column('video_path','原檔下載')->downloadable();
-        $grid->column('video_size', '原檔大小')->filesize();
-        $grid->column('price', '價格')->editable();
+        $grid->column('video_size', '原檔大小')->sortable()->filesize();
+        $grid->column('m3u8_secs', '總秒數')->sortable();
+        $grid->column('price', '價格')->sortable()->editable();
         // $grid->column('status', '上架狀態')->using(['0' => '<font color="red">未上架</font>', '1' => '<font color="blue">上架</font>']);
         $status_list = [
             'on'  => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
