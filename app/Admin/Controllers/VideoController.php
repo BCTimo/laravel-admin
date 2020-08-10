@@ -35,6 +35,7 @@ class VideoController extends AdminController
         /*README
             https://laravel-admin.org/docs/zh/model-grid
         */
+        $grid->model()->orderBy('id','desc');
 
         $grid->sortable();
         $grid->column('id', 'ID')->sortable();
