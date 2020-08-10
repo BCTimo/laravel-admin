@@ -100,6 +100,8 @@ class VideoController extends AdminController
         $form->multipleSelect('tags','標籤')->options(Tag::all()->pluck('name', 'id'));
         // $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
         $form->file('video_path','視頻')->required();
+        $form->datetime('title_sec','封面截圖秒數')->format('HH:mm:ss')->default('00:00:05');
+
         $form->hidden('video_size');
         $form->saving(function ($form){
             if($form->video_path){
@@ -143,14 +145,15 @@ class VideoController extends AdminController
         $form->saved(function (Form $form) {
             $video_path ='/upload/'. $form->model()->getOriginal()['video_path'];
             $videoId = $form->model()->getOriginal()['id'];
-            $this->convertM3U8($video_path,$videoId);
+            $title_sec = $form->model()->getOriginal()['title_sec'];
+            $this->convertM3U8($video_path,$videoId,$title_sec);
 
         });
 
 
         return $form;
     }
-    private function convertM3U8($video_path,$videoId){
+    private function convertM3U8($video_path,$videoId,$title_sec){
         // $cmd = "ffmpeg -y -i /project/test.mp4 -hls_time 2 -hls_key_info_file /project/enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8";
         $source_path = $video_path;//$key_info_path=public_path('key/').'enc.keyinfo';
         $target_path='/mv/'.$videoId.'/file.m3u8';//$target_path=base_path("public/MV/").'file.m3u8';
@@ -158,7 +161,7 @@ class VideoController extends AdminController
 
         
         //ProcessM3U8::dispatch($source_path,$target_path,$key_info_path)->onConnection('redis');
-        ProcessM3U8::dispatch($source_path,$target_path,$videoId);
+        ProcessM3U8::dispatch($source_path,$target_path,$videoId,$title_sec);
 
         // Video::where('id',$videoId)->update(['m3u8_path'] => "done");
         

@@ -22,6 +22,7 @@ class ProcessM3U8 implements ShouldQueue
     public $output;
     public $keyinfo; 
     public $videoId;
+    public $title_sec;
     public $timeout = 3600; // 定義操作延遲時間,單位:秒;
     public $tries = 5;  // 定義隊列重試次數;
     public $memory = 1024;  // 定義隊列所佔最大內存限制;
@@ -36,12 +37,13 @@ class ProcessM3U8 implements ShouldQueue
      * @param string $input
      * @param string $output
      */
-    public function __construct(string $input,string $output, int $videoId)
+    public function __construct(string $input,string $output, int $videoId, string $title_sec = '00:00:05')
     {
         $this->input = $input;
         $this->output = $output;
-        
         $this->videoId = $videoId;
+        $this->title_sec = $title_sec;
+        
     }
 
     /**
@@ -73,11 +75,12 @@ class ProcessM3U8 implements ShouldQueue
         
 
         Log::info('圖片採集 Start');
-        $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss 00:00:05 -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
+        $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss '.$this->title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
         exec($get_img,$res);
 
         
         Log::info('圖片採集 End');
+        // //ffmpeg -y -i /project/fuck.avi -hls_time 20 -hls_key_info_file enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8
         $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
         exec($cmd,$res);
         
