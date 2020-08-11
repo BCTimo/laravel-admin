@@ -90,8 +90,6 @@ class VideoController extends AdminController
             $filter->disableIdFilter();
             // 在这里添加字段过滤器
             $filter->like('name', 'name');
-
-            $filter->scope('name','名稱')->where('id','1');
         });
         return $grid;
     }
