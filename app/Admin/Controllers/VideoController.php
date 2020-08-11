@@ -42,11 +42,14 @@ class VideoController extends AdminController
         $grid->sortable();
         $grid->id('ID')->sortable();
         $grid->column('img_path','轉檔狀態')->image(env('APP_URL'), 100, 100);
+        $grid->column('整包大小')->display(function () {
+            $du_cmd = 'du -hd 0 '.public_path().'/mv/'.$this->id.'/ | cut -f 1';
+            $du = exec($du_cmd);
+            return $du;
+        });
         $grid->column('name', '标题')->filter()->editable();
         $grid->tags('標籤')->pluck('name')->label();
         
-
-
         $grid->column('觀看次數')->help('點擊數統計')->display(function () {
             return Video_log::where('vid',$this->id)->count();
         });
@@ -84,10 +87,11 @@ class VideoController extends AdminController
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
-            //$filter->disableIdFilter();
+            $filter->disableIdFilter();
             // 在这里添加字段过滤器
-            $filter->contains('name');
-            //$filter->like('name', 'name');
+            $filter->like('name', 'name');
+
+            $filter->scope('name','名稱')->where('id','1');
         });
         return $grid;
     }
