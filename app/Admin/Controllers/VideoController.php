@@ -47,7 +47,7 @@ class VideoController extends AdminController
         
 
 
-        $grid->column('觀看次數')->help('點擊數統計')->sortable()->display(function () {
+        $grid->column('觀看次數')->help('點擊數統計')->display(function () {
             return Video_log::where('vid',$this->id)->count();
         });
 
