@@ -37,7 +37,7 @@ class VideoController extends AdminController
         /*README
             https://laravel-admin.org/docs/zh/model-grid
         */
-        $grid->model()->orderBy('id','desc');
+        //$grid->model()->orderBy('id','desc');
 
         $grid->sortable();
         $grid->id('ID')->sortable();
@@ -63,13 +63,13 @@ class VideoController extends AdminController
             'on'  => ['value' => 1, 'text' => '上架', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '未上架', 'color' => 'default'],
         ];
-        $grid->column('status','上架狀態')->switch($status_list);
+        $grid->column('status','上架狀態')->switch($status_list)->sortable();
         // $grid->column('hot','熱門')->using(['0' => '無', '1' => '<font color="blue">熱門</font>']);
         $hot_list = [
             'on'  => ['value' => 1, 'text' => '熱門', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '一般', 'color' => 'default'],
         ];
-        $grid->column('hot','熱門')->switch($hot_list);
+        $grid->column('hot','熱門')->switch($hot_list)->sortable();
         $grid->column('created_at','建立時間')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
@@ -87,9 +87,10 @@ class VideoController extends AdminController
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
-            $filter->disableIdFilter();
+            //$filter->disableIdFilter();
             // 在这里添加字段过滤器
             $filter->like('name', 'name');
+
         });
         return $grid;
     }
