@@ -28,7 +28,7 @@ class DomainController extends AdminController
 
         $grid->column('domain', '域名');
         $grid->column('explain','使用说明');
-        $type_list = [1=>'H5域名', 20=>'m3u8域名' , 21=>'資源域名'];
+        $type_list = [1=>'H5域名', 20=>'封面域名' , 21=> 'KEY域名' ,22=>'資源域名'];
         //$grid->column('type','域名类型')->options($type_list);//->default('m');
         $grid->column('type','域名类型')->radio($type_list);
 
@@ -71,7 +71,7 @@ class DomainController extends AdminController
 
         $form->text('domain', '域名');
         $form->text('explain','使用说明');
-        $type_list = [1=>'H5域名', 20=>'m3u8域名' , 21=>'資源域名'];
+        $type_list = [1=>'H5域名', 20=>'封面域名' , 21=> 'KEY域名' ,22=>'資源域名'];
         $form->radioCard('type','域名类型')->options($type_list);//->default('m');
 
         $platform_list = [1 => 'WAP',2 => 'APP'];
