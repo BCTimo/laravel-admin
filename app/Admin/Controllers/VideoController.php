@@ -12,6 +12,7 @@ use Encore\Admin\Show;
 use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Videofiles;
+use App\Models\Video_log;
 
 class VideoController extends AdminController
 {
@@ -32,17 +33,24 @@ class VideoController extends AdminController
         //dd(Videofiles::where('vid',1)->get());
         
         $grid = new Grid(new Video());
+        
         /*README
             https://laravel-admin.org/docs/zh/model-grid
         */
         $grid->model()->orderBy('id','desc');
 
         $grid->sortable();
-        $grid->column('id', 'ID')->sortable();
+        $grid->id('ID')->sortable();
         $grid->column('img_path','轉檔狀態')->image(env('APP_URL'), 100, 100);
-        $grid->column('name', '标题')->editable();
+        $grid->column('name', '标题')->filter()->editable();
         $grid->tags('標籤')->pluck('name')->label();
         
+
+
+        $grid->column('觀看次數')->help('點擊數統計')->sortable()->display(function () {
+            return Video_log::where('vid',$this->id)->count();
+        });
+
         $grid->column('video_path','原檔下載')->downloadable();
         $grid->column('video_size', '原檔大小')->sortable()->filesize();
         $grid->column('m3u8_secs', '總秒數')->sortable();
