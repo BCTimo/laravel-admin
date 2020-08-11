@@ -84,8 +84,9 @@ class VideoController extends AdminController
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
-            $filter->disableIdFilter();
+            //$filter->disableIdFilter();
             // 在这里添加字段过滤器
+            $filter->contains('name');
             //$filter->like('name', 'name');
         });
         return $grid;
@@ -151,7 +152,7 @@ class VideoController extends AdminController
 
         //保存后回调
         $form->saved(function (Form $form) {
-            //如果 影片更換 或 封面截圖秒數有異動才重轉
+            //如果 影片更換 或封面截圖秒數有異動才重轉
             if(isset($form->model()->getChanges()['title_sec']) || isset($form->model()->getChanges()['video_path'])){
                 $video_path ='/upload/'. $form->model()->getOriginal()['video_path'];
                 $videoId = $form->model()->getOriginal()['id'];

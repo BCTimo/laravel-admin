@@ -22,7 +22,7 @@ Grid::init(function (Grid $grid) {
     //$grid->disableActions();
     //$grid->disablePagination();
     //$grid->disableCreateButton();
-    $grid->disableFilter();
+    //$grid->disableFilter();
     $grid->disableRowSelector();
     //$grid->disableColumnSelector();
     //$grid->disableTools();
