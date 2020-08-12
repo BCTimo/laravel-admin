@@ -50,8 +50,8 @@ class VideoController extends AdminController
         $grid->column('name', '标题')->filter()->editable();
         $grid->tags('標籤')->pluck('name')->label();
         
-        $grid->column('view','觀看次數')->help('分分鐘更新')->label('primary')->sortable();
-        $grid->column('favorite','收藏數')->help('分分鐘更新')->label('warning')->sortable();
+        $grid->column('view','觀看次數')->help('分分鐘更新')->sortable();
+        $grid->column('favorite','收藏數')->help('分分鐘更新')->sortable();
         // $grid->column('觀看次數')->help('點擊數統計')->display(function () {
         //     return Video_log::where('vid',$this->id)->count();
         // });
