@@ -81,7 +81,7 @@ class ProcessM3U8 implements ShouldQueue
         
         Log::info('圖片採集 End');
         // //ffmpeg -y -i /project/fuck.avi -hls_time 20 -hls_key_info_file enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8
-        $cmd='ffmpeg -y -i '.public_path().$this->input.' -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
+        $cmd='ffmpeg -y -i '.public_path().$this->input.' -vcodec copy -acodec copy -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
         exec($cmd,$res);
         
         //dd($res);
