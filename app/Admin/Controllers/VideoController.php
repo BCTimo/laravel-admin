@@ -159,12 +159,23 @@ class VideoController extends AdminController
         //保存后回调
         $form->saved(function (Form $form) {
             //如果 影片更換 或封面截圖秒數有異動才重轉
-            if(isset($form->model()->getChanges()['title_sec']) || isset($form->model()->getChanges()['video_path'])){
-                $video_path ='/upload/'. $form->model()->getOriginal()['video_path'];
-                $videoId = $form->model()->getOriginal()['id'];
-                $title_sec = $form->model()->getOriginal()['title_sec'];
-
+            $video_path ='/upload/'. $form->model()->getOriginal()['video_path'];
+            $videoId = $form->model()->getOriginal()['id'];
+            $title_sec = $form->model()->getOriginal()['title_sec'];
+            $MV_path = public_path().'/mv/'.$videoId;
+            if($form->model()->wasRecentlyCreated){  //新增模式
                 $this->convertM3U8($video_path,$videoId,$title_sec);
+            }else{ //編輯模式
+                if(isset($form->model()->getChanges()['video_path'])){
+                    $this->convertM3U8($video_path,$videoId,$title_sec);
+                }
+                if(isset($form->model()->getChanges()['title_sec'])){
+                    $get_img = 'ffmpeg -y -i '.public_path().$video_path.' -ss '.$title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
+                    exec($get_img,$res);
+    
+                    $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
+                    exec($toHtml);
+                }
             }
         });
 
