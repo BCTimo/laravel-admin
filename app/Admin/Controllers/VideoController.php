@@ -47,7 +47,7 @@ class VideoController extends AdminController
             $du = exec($du_cmd);
             return $du;
         });
-        $grid->column('name', '标题')->filter()->editable();
+        $grid->column('name', '标题')->editable();
         $grid->tags('標籤')->pluck('name')->label();
         
         $grid->column('view','觀看次數')->help('分分鐘更新')->label('primary')->sortable();
@@ -91,7 +91,7 @@ class VideoController extends AdminController
             // 去掉默认的id过滤器
             //$filter->disableIdFilter();
             // 在这里添加字段过滤器
-            $filter->like('name', 'name');
+            $filter->like('name', '標題');
 
         });
         return $grid;
