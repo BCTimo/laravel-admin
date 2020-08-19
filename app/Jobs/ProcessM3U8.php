@@ -62,7 +62,9 @@ class ProcessM3U8 implements ShouldQueue
         //開資料夾
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
-
+        //清除現有資料夾
+        exec('rm -Rf '.$directory.'/*');
+        
         //動態產生key
         $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
         Log::info('****產enc.key****');
@@ -79,10 +81,10 @@ class ProcessM3U8 implements ShouldQueue
         exec($get_img,$res);
         Log::info('圖片採集 End');
 
-
         Log::info('影片轉碼');
+        $tsfilename='file'.rand(10,99).'%d.ts';
         // //ffmpeg -y -i /project/fuck.avi -hls_time 20 -hls_key_info_file enc.keyinfo -hls_playlist_type vod -hls_segment_filename /project/file%d.ts /project/index.m3u8
-        $cmd='ffmpeg -y -i '.public_path().$this->input.' -vcodec copy -acodec copy -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/file%d.ts '.$MV_path.'/file.m3u8';
+        $cmd='ffmpeg -y -i '.public_path().$this->input.' -vcodec copy -acodec copy -hls_time 10 -hls_key_info_file '.$MV_path.'/enc.keyinfo -hls_playlist_type vod -hls_segment_filename '.$MV_path.'/'.$tsfilename.' '.$MV_path.'/file.m3u8';
         exec($cmd,$res);
         
 
