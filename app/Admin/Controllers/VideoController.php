@@ -169,17 +169,16 @@ class VideoController extends AdminController
             if($form->model()->wasRecentlyCreated){  //新增模式
                 $this->convertM3U8($video_path,$videoId,$title_sec);
             }else{ //編輯模式
-                $this->convertM3U8($video_path,$videoId,$title_sec);
-                // if(isset($form->model()->getChanges()['video_path'])){
-                //     $this->convertM3U8($video_path,$videoId,$title_sec);
-                // }
-                // if(isset($form->model()->getChanges()['title_sec'])){
-                //     $get_img = 'ffmpeg -y -i '.public_path().$video_path.' -ss '.$title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
-                //     exec($get_img,$res);
+                if(isset($form->model()->getChanges()['video_path'])){
+                    $this->convertM3U8($video_path,$videoId,$title_sec);
+                }
+                if(isset($form->model()->getChanges()['title_sec'])){
+                    $get_img = 'ffmpeg -y -i '.public_path().$video_path.' -ss '.$title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
+                    exec($get_img,$res);
     
-                //     $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
-                //     exec($toHtml);
-                // }
+                    $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
+                    exec($toHtml);
+                }
             }
         });
 
