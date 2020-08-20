@@ -3,12 +3,14 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Domain;
+
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Carbon\Carbon;
 
+use Encore\Admin\Widgets\Tab;
 class DomainController extends AdminController
 {
     /**
@@ -26,13 +28,13 @@ class DomainController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Domain());
-
+        
         $grid->column('domain', '域名')->link();
         $grid->column('explain','使用说明');
         $type_list = [1=>'H5域名', 20=>'封面域名' , 21=> 'KEY域名' ,22=>'資源域名'];
         // $grid->column('type','域名类型')->options($type_list);//->default('m');
         // $grid->column('type','域名类型')->radio($type_list);
-        $grid->column('type','域名类型')->using($type_list);
+        $grid->column('type','域名类型')->using($type_list)->sortable()->filter($type_list);
         
         
 
@@ -56,11 +58,22 @@ class DomainController extends AdminController
         // $grid->column('enable_time', __('Enable time'));
         // $grid->column('expiration_time', __('Expiration time'));
         // $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at','最後更新時間')->display(function($updated_at){
+        $grid->column('updated_at','最後更新時間')->sortable()->display(function($updated_at){
             return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
         $status_list = [ 1 => '备用' , 2 => '启用' , 3 => '被拦截'];
-        $grid->column('status','域名状态')->using($status_list);
+        $grid->column('status','域名状态')->using($status_list)->sortable()->filter($status_list);
+
+        
+        // $grid->model()->where('id',1);
+
+        // $tab = new Tab();
+        // $tab->add('Grid', $grid->render());
+        // $tab->add('H5', $grid->render());
+        // $tab->add('封面域名', Domain::where('type',20)->get());
+        // //dd($grid);
+        // return  $tab->render();
+        
 
         return $grid;
     }
