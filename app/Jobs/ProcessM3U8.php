@@ -88,6 +88,7 @@ class ProcessM3U8 implements ShouldQueue
         exec($cmd,$res);
         
 
+        $this->del_cache_m3u8($this->videoId);
         
         if(file_exists($MV_path.'/file.m3u8')){
             Log::info('id: '.$this->videoId.' M3U8 檔案存在');
@@ -163,6 +164,31 @@ class ProcessM3U8 implements ShouldQueue
             fclose($handle);
         }
         return $return;
+    }
+
+    function del_cache_m3u8($vid){
+        $api_url = 'http://vapi.yichuba.com/bcb/delm3u8';
+        $key = 'Cartoon$2019&#';
+        $timestamp = time()*1000;
+
+        $str= 'timestamp='.$timestamp.'&vid='.$vid.'&key='.$key;
+        $sign = strtoupper(md5($str));
+
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'timestamp: '.$timestamp,
+            'sign: '.$sign
+        ]);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,
+            'vid='.$vid
+        );
+        $output = curl_exec($ch);
+
+        curl_close($ch);
     }
 
 }
