@@ -16,5 +16,5 @@ Route::group([
     $router->resource('videos', VideoController::class);
     $router->resource('tags', TagController::class);
     $router->resource('domains', DomainController::class);
-    
+    $router->resource('videologs/daily_people', VideologController::class);    
 });
