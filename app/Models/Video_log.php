@@ -16,6 +16,22 @@ class Video_log extends Model
         return $res;
     }
 
+    public static function bookbean_by_day(){
+        $sql='
+        SELECT count(id) as "点击量",sum(paid) as "消耗金币总量",DATE_FORMAT(create_time,"%Y-%m-%d") as g_t ,
+        sum( if( client = 1, 1,0)) as "wap点击量",
+        sum( if( client = 2, 1,0)) as "app点击量" ,
+        sum( if( client = 1, paid,0)) as "wap金币消耗量" ,
+        sum( if( client = 2, paid,0)) as "app金币消耗量" 
+        FROM video.video_log
+        group by g_t;
+        ';
+        $res = DB::select($sql);
+        return $res;
+    }
+
+    
+
 
     
 }
