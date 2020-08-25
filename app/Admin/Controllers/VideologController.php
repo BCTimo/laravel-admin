@@ -24,7 +24,7 @@ class VideologController extends AdminController
      * @return Grid
      */
     protected function grid(){
-        $headers = ['点击量', '消耗金币总量','wap点击量','app点击量','wap金币消耗量','app金币消耗量'];
+        $headers = ['点击量', '消耗金币总量','日期','wap点击量','app点击量','wap金币消耗量','app金币消耗量'];
         $rows = Video_log::bookbean_by_day();
         $style = ['table-bordered','table-hover', 'table-striped'];
         $options = [
