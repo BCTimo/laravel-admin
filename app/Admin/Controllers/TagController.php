@@ -49,6 +49,10 @@ class TagController extends AdminController
             // $actions->disableEdit();
         });
 
+        $grid->filter(function($filter){
+            $filter->like('name', '標題');
+        });
+
         return $grid;
     }
 
