@@ -198,7 +198,10 @@ class VideoController extends AdminController
                     $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title2.html";
                     exec($toHtml);
                 }
-
+                if($form->model()->getChanges()['custom_image']==null){
+                    $RMcustom_image='rm -f '.$MV_path.'/title2.*';
+                    exec($RMcustom_image);
+                };
 
                 //如果有自定圖片以此圖為主
                 if(isset($form->model()->getChanges()['custom_image'])){
