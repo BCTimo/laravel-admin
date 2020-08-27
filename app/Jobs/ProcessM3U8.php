@@ -63,7 +63,7 @@ class ProcessM3U8 implements ShouldQueue
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
         //清除現有資料夾
-        exec('rm -Rf '.$directory.'/*');
+        exec('rm -Rf '.$directory.'/*.ts');
         
         //動態產生key
         $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';

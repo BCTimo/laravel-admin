@@ -41,6 +41,7 @@ class VideoController extends AdminController
 
         $grid->sortable();
         $grid->id('ID')->sortable();
+        $grid->column('custom_image','自訂封面')->image(env('APP_URL').'/upload/', 100, 100);
         $grid->column('img_path','轉檔狀態')->image(env('APP_URL'), 100, 100);
         $grid->column('整包大小')->display(function () {
             $du_cmd = 'du -hd 0 '.public_path().'/mv/'.$this->id.'/ | cut -f 1';
@@ -52,7 +53,7 @@ class VideoController extends AdminController
         
         $grid->column('view','觀看次數')->help('分分鐘更新')->label('primary')->sortable()->totalRow();
         $grid->column('favorite','收藏數')->help('分分鐘更新')->label('warning')->sortable()->totalRow();
-        $grid->column('幣收益')->help('點擊數統計')->display(function () {
+        $grid->column('幣收益')->display(function () {
             return Video_log::where('vid',$this->id)->sum('paid');
         });
         // $grid->column('觀看次數')->help('點擊數統計')->display(function () {
@@ -118,6 +119,8 @@ class VideoController extends AdminController
         $form->listbox('tags','標籤')->options(Tag::all()->pluck('name', 'id'));
         // $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
         $form->file('video_path','視頻')->required();
+        // 添加图片删除按钮
+        $form->image('custom_image','自訂封面')->removable();
         $form->datetime('title_sec','封面截圖秒數')->format('HH:mm:ss')->default('00:00:05');
 
         $form->hidden('video_size');
@@ -166,9 +169,25 @@ class VideoController extends AdminController
             $videoId = $form->model()->getOriginal()['id'];
             $title_sec = $form->model()->getOriginal()['title_sec'];
             $MV_path = public_path().'/mv/'.$videoId;
+
+            //開資料夾/mv/'.$videoId.'/file.m
+            $directory = public_path().'/mv/'.$videoId.'/';
+            File::isDirectory($directory) or File::makeDirectory($directory);
+
+
             if($form->model()->wasRecentlyCreated){  //新增模式
+                //如果有自定圖片以此圖為主
+                if(isset($form->model()->getOriginal()['custom_image'])){
+                    $custom_image_path = public_path().'/upload/'.$form->model()->getOriginal()['custom_image'];    
+                    $cpCmd = 'yes | cp '.$custom_image_path .' '.$MV_path.'/title2.jpg';
+                    exec($cpCmd);
+                    $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title2.html ; base64 ".$custom_image_path."  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title2.html";
+                    exec($toHtml);
+                }
+
                 $this->convertM3U8($video_path,$videoId,$title_sec);
             }else{ //編輯模式
+
                 if(isset($form->model()->getChanges()['video_path'])){
                     $this->convertM3U8($video_path,$videoId,$title_sec);
                 }
@@ -176,7 +195,18 @@ class VideoController extends AdminController
                     $get_img = 'ffmpeg -y -i '.public_path().$video_path.' -ss '.$title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
                     exec($get_img,$res);
     
-                    $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
+                    $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title2.html";
+                    exec($toHtml);
+                }
+
+
+                //如果有自定圖片以此圖為主
+                if(isset($form->model()->getChanges()['custom_image'])){
+                    $custom_image_path = public_path().'/upload/'.$form->model()->getChanges()['custom_image'];    
+                    $cpCmd = 'yes | cp '.$custom_image_path .' '.$MV_path.'/title2.jpg';
+                    exec($cpCmd);
+
+                    $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title2.html ; base64 ".public_path().'/upload/'.$form->model()->getChanges()['custom_image']." | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title2.html";
                     exec($toHtml);
                 }
             }
