@@ -29,7 +29,7 @@ class ProcessM3U8 implements ShouldQueue
     public $threads = 2;    // 定義隊列所佔最大線程數;
     public $section = 10;    // 定義視頻切片大小,單位:秒;
     public $progress = 0;   // 當前轉碼進度;
-
+    public $filename;
     /**
      * Create a new job instance.
      *
@@ -37,12 +37,13 @@ class ProcessM3U8 implements ShouldQueue
      * @param string $input
      * @param string $output
      */
-    public function __construct(string $input,string $output, int $videoId, string $title_sec = '00:00:05')
+    public function __construct(string $input,string $output, int $videoId, string $title_sec = '00:00:05',$filename)
     {
         $this->input = $input;
         $this->output = $output;
         $this->videoId = $videoId;
         $this->title_sec = $title_sec;
+        $this->filename = $filename;
         
     }
 
@@ -63,7 +64,7 @@ class ProcessM3U8 implements ShouldQueue
         $directory = pathinfo(public_path().$this->output)['dirname'];
         File::isDirectory($directory) or File::makeDirectory($directory);
         //清除現有資料夾
-        exec('rm -Rf '.$directory.'/*.ts');
+        exec('rm -Rf '.$directory.'/*');
         
         //動態產生key
         $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
@@ -77,8 +78,13 @@ class ProcessM3U8 implements ShouldQueue
         
 
         Log::info('圖片採集 Start');
-        $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss '.$this->title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/title.jpeg';
+        $rm_img = 'rm -f '.$MV_path.'/*.jpeg ; rm -f '.$MV_path.'/*.html';
+        exec($MV_path);
+        $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss '.$this->title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/'.$this->filename.'.jpeg';
         exec($get_img,$res);
+        ///轉圖到base64存db
+        $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/".$this->filename.".html ; base64 ".$MV_path."/".$this->filename.".jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/".$this->filename.".html";
+        exec($toHtml);
         Log::info('圖片採集 End');
 
         Log::info('影片轉碼');
@@ -107,11 +113,6 @@ class ProcessM3U8 implements ShouldQueue
             $video = Videofiles::where('vid',$this->videoId)->delete(); //更新刪除重做
             $total_sec = 0;
 
-            ///轉圖到base64存db
-            // $path = $MV_path.'/title.jpeg';
-
-            $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/title.html ; base64 ".$MV_path."/title.jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/title.html";
-            exec($toHtml);
 
 
             foreach($m3u8_info['data'] as $v){
@@ -128,7 +129,7 @@ class ProcessM3U8 implements ShouldQueue
             $video = Video::find($this->videoId);
             $video->m3u8_path = '/mv/'.$this->videoId.'/file.m3u8';
             $video->key_path = '/mv/'.$this->videoId.'/enc.key';
-            $video->img_path = '/mv/'.$this->videoId.'/title.jpeg';
+            $video->img_path = '/mv/'.$this->videoId.'/'.$this->filename.'.jpeg';
             $video->iv = $Video_iv;
             $video->m3u8_secs = $total_sec;
             $video->save();
