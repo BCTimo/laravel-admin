@@ -171,7 +171,8 @@ class VideoController extends AdminController
             if($form->model()->wasRecentlyCreated){  //新增模式
                 $this->convertM3U8($video_path,$videoId,$title_sec,$filename);
             }else{ //編輯模式
-                if(isset($form->model()->getChanges()['video_path']) || isset($form->model()->getChanges()['title_sec']) || $form->model()->getOriginal()['custom_image'] || is_null($form->model()->getChanges()['custom_image']) ){
+                dd($form->model()->getChanges()['custom_image']);
+                if(isset($form->model()->getChanges()['video_path']) || isset($form->model()->getChanges()['title_sec']) || $form->model()->getOriginal()['custom_image'] || @$form->model()->getChanges()['custom_image'] ){
                     $this->convertM3U8($video_path,$videoId,$title_sec,$filename);
                 }
             }
