@@ -119,7 +119,7 @@ class VideoController extends AdminController
         // $form->multipleSelect('tags','標籤')->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
         $form->file('video_path','視頻')->required();
         $form->datetime('title_sec','封面截圖秒數')->format('HH:mm:ss')->default('00:00:05');
-
+        $form->image('custom_image','自訂封面')->removable();
         $form->hidden('video_size');
         $form->saving(function ($form){
             if($form->video_path){
@@ -171,7 +171,7 @@ class VideoController extends AdminController
             if($form->model()->wasRecentlyCreated){  //新增模式
                 $this->convertM3U8($video_path,$videoId,$title_sec,$filename);
             }else{ //編輯模式
-                if(isset($form->model()->getChanges()['video_path']) || isset($form->model()->getChanges()['title_sec'])){
+                if(isset($form->model()->getChanges()['video_path']) || isset($form->model()->getChanges()['title_sec']) || $form->model()->getOriginal()['custom_image'] || $form->model()->getChanges()['custom_image']==null ){
                     $this->convertM3U8($video_path,$videoId,$title_sec,$filename);
                 }
             }

@@ -68,24 +68,32 @@ class ProcessM3U8 implements ShouldQueue
         
         //動態產生key
         $key_gen_cmd='openssl rand -base64 16 > '.$MV_path.'/enc.key';
-        Log::info('****產enc.key****');
         exec($key_gen_cmd);
-
-        Log::info('****產enc.keyinfo****');
         $keninfo_gen_cmd = 'echo -e "enc.key\n'.$MV_path.'/enc.key\n'.$iv.'" > '.$MV_path.'/enc.keyinfo';
         exec($keninfo_gen_cmd);
 
         
 
-        Log::info('圖片採集 Start');
+        Log::info('封面圖片處理');
         $rm_img = 'rm -f '.$MV_path.'/*.jpeg ; rm -f '.$MV_path.'/*.html';
-        exec($MV_path);
+        exec($rm_img);
         $get_img = 'ffmpeg -y -i '.public_path().$this->input.' -ss '.$this->title_sec.' -r 0.01 -vframes 1 -f image2 '.$MV_path.'/'.$this->filename.'.jpeg';
         exec($get_img,$res);
         ///轉圖到base64存db
         $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/".$this->filename.".html ; base64 ".$MV_path."/".$this->filename.".jpeg  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/".$this->filename.".html";
         exec($toHtml);
-        Log::info('圖片採集 End');
+
+        //檢查現在使否有自定圖片
+        $custrom_image_path = Video::find($this->videoId)->getOriginal()['custom_image'];
+        //如果有自定圖片則產 `動態檔` 後產 `加密黨` 並$video->img_path 帶入 若無責回原始擷取圖片
+        if($custrom_image_path !='' || $custrom_image_path != null){
+            $custom_image_path = public_path().'/upload/'.$custrom_image_path;
+            $cpCmd = 'yes | cp '.$custom_image_path .' '.$MV_path.'/'.$this->filename.'.jpeg';
+            exec($cpCmd);
+            $toHtml = "echo 'data:image/jpeg;base64,' > ".$MV_path."/".$this->filename.".html ; base64 ".$custom_image_path."  | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g'  >> ".$MV_path."/".$this->filename.".html";
+            exec($toHtml);
+        }
+        
 
         Log::info('影片轉碼');
         $tsfilename='file'.rand(10,99).'%d.ts';
