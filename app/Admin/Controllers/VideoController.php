@@ -52,9 +52,7 @@ class VideoController extends AdminController
         
         $grid->column('view','觀看次數')->help('分分鐘更新')->label('primary')->sortable()->totalRow();
         $grid->column('favorite','收藏數')->help('分分鐘更新')->label('warning')->sortable()->totalRow();
-        $grid->column('幣收益')->help('點擊數統計')->display(function () {
-            return Video_log::where('vid',$this->id)->sum('paid');
-        });
+        $grid->column('paid','幣收益')->sortable()->totalRow();
         // $grid->column('觀看次數')->help('點擊數統計')->display(function () {
         //     return Video_log::where('vid',$this->id)->count();
         // });
