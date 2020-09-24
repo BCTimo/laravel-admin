@@ -41,7 +41,7 @@ class VideoController extends AdminController
 
         $grid->sortable();
         $grid->id('ID')->sortable();
-        $grid->column('img_path','轉檔狀態')->image(env('S3_URL'), 100, 100);
+        // $grid->column('img_path','轉檔狀態')->image(env('S3_URL'), 100, 100);
         // $grid->column('整包大小')->display(function () {
         //     $du_cmd = 'du -hd 0 '.public_path().'/mv/'.$this->id.'/ | cut -f 1';
         //     $du = exec($du_cmd);
