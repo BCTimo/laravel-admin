@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use Illuminate\Support\Facades\File;
 use App\Jobs\ProcessM3U8;
 use App\Models\Video;
+use App\Models\VideoTags;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -38,6 +39,54 @@ class VideoController extends AdminController
             https://laravel-admin.org/docs/zh/model-grid
         */
         //$grid->model()->orderBy('id','desc');
+
+        $grid->selector(function (Grid\Tools\Selector $selector) {
+            $selector->select('status', '上架', ['0' => '未上架', '1' => '上架']);
+            $selector->select('hot', '熱門', ['0' => '一般', '1' => '熱門']);
+            
+            $videotags = Tag::all();
+            $type_arr = [];
+            if(!$videotags->isEmpty()){
+                foreach ($videotags as $tag) {
+                    $type_arr[$tag->id] = $tag->name;
+                }
+            }
+            $selector->select('tags', '類型', $type_arr, function ($query, $value) {
+                //dd($value);
+                $query->whereHas('tags', function ($query) use ($value) {
+                    $query->whereIN('video_tags.tag_id', $value);
+                });
+            });
+
+
+
+            // $type_arr = [1 => "奇幻·玄幻", 2 => "武侠·仙侠", 3 => "都市·青春", 4 => "重生·穿越", 5 => "游戏·竞技", 6 => "科幻·灵异", 7 => "其他" ,8 => "乡村·激情", 9 => "都市·言情", 10 => "历史·军事", 11 => "领主贵族", 12 => "异术超能", 13 => "漫画·美图", 14 => "古风·言情"];
+            // $selector->select('tags', '類型', $type_arr);
+            // $booktypes = Booktype::orderBy('sort', 'ASC')->get();
+            // $type_arr = [];
+            // //dump($booktypes);
+            // if(!$booktypes->isEmpty()){
+            //     foreach ($booktypes as $booktype) {
+            //         $type_arr[$booktype->id] = $booktype->name;
+            //     }
+            // }
+            // //$type_arr = [1 => "奇幻·玄幻", 2 => "武侠·仙侠", 3 => "都市·青春", 4 => "重生·穿越", 5 => "游戏·竞技", 6 => "科幻·灵异", 7 => "其他" ,8 => "乡村·激情", 9 => "都市·言情", 10 => "历史·军事", 11 => "领主贵族", 12 => "异术超能", 13 => "漫画·美图", 14 => "古风·言情"];
+            // //dump($type_arr);
+            // $selector->select('nature', __('fictions.bookinfo.nature'), ['1' => '男頻', '2' => '女頻', '3' => '中性']);
+            // $selector->select('types', '類型', $type_arr, function ($query, $value) {
+            //     //dump($value);
+            //     $query->whereHas('types', function ($query) use ($value) {
+            //         $query->whereIN('t_booktype.id', $value);
+            //     });
+            // });
+            // $selector->select('end', __('fictions.bookinfo.end'), ['0' => '連載', '1' => '完結']);
+            // $selector->select('open', __('fictions.bookinfo.open'), ['0' => '還有章節未開放', '1' => '完全開放']);
+            // $selector->select('free', __('fictions.bookinfo.free'), ['0' => '停用', '1' => '啟用']);
+            // $selector->select('recom', __('fictions.bookinfo.recom'), ['0' => '停用', '1' => '啟用']);
+            // $selector->select('vip', __('fictions.bookinfo.vip'), ['0' => '普通', '1' => 'VIP專屬']);
+            // $selector->select('search', __('fictions.bookinfo.search'), ['0' => '全戰搜', '1' => '前台不可', '2' => '後台不可', '3' => '全站不可']);
+            // $selector->select('status', __('fictions.status'), ['0' => '停用', '1' => '啟用', '2' => '待審']);
+        });
 
         $grid->sortable();
         $grid->id('ID')->sortable();
