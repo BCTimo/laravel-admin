@@ -58,34 +58,6 @@ class VideoController extends AdminController
                 });
             });
 
-
-
-            // $type_arr = [1 => "奇幻·玄幻", 2 => "武侠·仙侠", 3 => "都市·青春", 4 => "重生·穿越", 5 => "游戏·竞技", 6 => "科幻·灵异", 7 => "其他" ,8 => "乡村·激情", 9 => "都市·言情", 10 => "历史·军事", 11 => "领主贵族", 12 => "异术超能", 13 => "漫画·美图", 14 => "古风·言情"];
-            // $selector->select('tags', '類型', $type_arr);
-            // $booktypes = Booktype::orderBy('sort', 'ASC')->get();
-            // $type_arr = [];
-            // //dump($booktypes);
-            // if(!$booktypes->isEmpty()){
-            //     foreach ($booktypes as $booktype) {
-            //         $type_arr[$booktype->id] = $booktype->name;
-            //     }
-            // }
-            // //$type_arr = [1 => "奇幻·玄幻", 2 => "武侠·仙侠", 3 => "都市·青春", 4 => "重生·穿越", 5 => "游戏·竞技", 6 => "科幻·灵异", 7 => "其他" ,8 => "乡村·激情", 9 => "都市·言情", 10 => "历史·军事", 11 => "领主贵族", 12 => "异术超能", 13 => "漫画·美图", 14 => "古风·言情"];
-            // //dump($type_arr);
-            // $selector->select('nature', __('fictions.bookinfo.nature'), ['1' => '男頻', '2' => '女頻', '3' => '中性']);
-            // $selector->select('types', '類型', $type_arr, function ($query, $value) {
-            //     //dump($value);
-            //     $query->whereHas('types', function ($query) use ($value) {
-            //         $query->whereIN('t_booktype.id', $value);
-            //     });
-            // });
-            // $selector->select('end', __('fictions.bookinfo.end'), ['0' => '連載', '1' => '完結']);
-            // $selector->select('open', __('fictions.bookinfo.open'), ['0' => '還有章節未開放', '1' => '完全開放']);
-            // $selector->select('free', __('fictions.bookinfo.free'), ['0' => '停用', '1' => '啟用']);
-            // $selector->select('recom', __('fictions.bookinfo.recom'), ['0' => '停用', '1' => '啟用']);
-            // $selector->select('vip', __('fictions.bookinfo.vip'), ['0' => '普通', '1' => 'VIP專屬']);
-            // $selector->select('search', __('fictions.bookinfo.search'), ['0' => '全戰搜', '1' => '前台不可', '2' => '後台不可', '3' => '全站不可']);
-            // $selector->select('status', __('fictions.status'), ['0' => '停用', '1' => '啟用', '2' => '待審']);
         });
 
         $grid->sortable();
