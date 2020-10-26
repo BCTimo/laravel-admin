@@ -397,19 +397,19 @@ return [
     |
     */
     'extensions' => [
-        'data-table' => [
-            // If the value is set to false, this extension will be disabled
-            'enable' => true,
-            // global options
-            'options' => [
-                 'paging' => false,
-                 'lengthChange' => false,
-                 'searching' => false,
-                 'ordering' => false,
-                 'info' => false,
-                 'language' => 'Chinese', // or Chinese
-            ]
-        ],
+        // 'data-table' => [
+        //     // If the value is set to false, this extension will be disabled
+        //     'enable' => true,
+        //     // global options
+        //     'options' => [
+        //          'paging' => false,
+        //          'lengthChange' => false,
+        //          'searching' => false,
+        //          'ordering' => false,
+        //          'info' => false,
+        //          'language' => 'Chinese', // or Chinese
+        //     ]
+        // ],
         'ckeditor' => [
         
             //Set to false if you want to disable this extension
@@ -426,7 +426,7 @@ return [
         ],
         'iframe-tabs' => [
             // Set to `false` if you want to disable this extension
-             'enable' => false,
+             'enable' => 1,
 
              // The controller and action of dashboard page `/admin/dashboard`
              'home_action' => App\Admin\Controllers\HomeController::class . '@index',
@@ -458,13 +458,13 @@ return [
              //table action links [view edit] and create button ,and any thing has class pupop : <a class="pupop" popw="400px" poph="200px" href="someurl">mylink</a>
              'layer_size' => '1100px,98%',
         ],
-        'media-manager' => [
-            // Select a local disk that you configured in `config/filesystem.php`
-            'disk' => 'public'
-        ],
-        'env-manager' => [
-            // If the value is set to false, this extension will be disabled
-            'enable' => true
-        ]
+        // 'media-manager' => [
+        //     // Select a local disk that you configured in `config/filesystem.php`
+        //     'disk' => 'public'
+        // ],
+        // 'env-manager' => [
+        //     // If the value is set to false, this extension will be disabled
+        //     'enable' => true
+        // ]
     ],
 ];
