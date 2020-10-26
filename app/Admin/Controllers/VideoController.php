@@ -125,9 +125,9 @@ class VideoController extends AdminController
         $grid->column('created_at','建立時間')->display(function($created_at){
             return Carbon::parse($created_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
         });
-        $grid->column('updated_at','最後更新時間')->display(function($updated_at){
-            return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
-        });
+        // $grid->column('updated_at','最後更新時間')->display(function($updated_at){
+        //     return Carbon::parse($updated_at,'UTC')->tz('Asia/Taipei')->isoFormat("YYYY/M/D HH:mm:ss");
+        // });
 
         
         

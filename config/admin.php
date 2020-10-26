@@ -375,7 +375,12 @@ return [
     | The global Grid action display class.
     |--------------------------------------------------------------------------
     */
-    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
+    // 最原始的`按钮图标`形式
+    'grid_action_class' => \Encore\Admin\Grid\Displayers\Actions::class,
+    // 使用`下拉菜单`形式
+    //'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
+    // 使用`右键菜单`形式
+    //'grid_action_class' => \Encore\Admin\Grid\Displayers\ContextMenuActions::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -426,7 +431,7 @@ return [
         ],
         'iframe-tabs' => [
             // Set to `false` if you want to disable this extension
-             'enable' => 1,
+             'enable' => true,
 
              // The controller and action of dashboard page `/admin/dashboard`
              'home_action' => App\Admin\Controllers\HomeController::class . '@index',
