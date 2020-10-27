@@ -63,14 +63,14 @@ class VideoController extends AdminController
         $grid->sortable();
         $grid->id('ID')->sortable();
         //$grid->column('img_path','轉檔狀態')->image(env('S3_URL'), 100, 100);
-        $grid->column('img_path')->help('點擊數統計')->display(function ($title) {
-            $img_path = str_replace ('jpeg','html',$this->getOriginal()['img_path']);
-            $img_text = file_get_contents(env('S3_URL').$img_path);
-            $img_text = str_replace ('/','*',$img_text);
-            $img_text = str_replace ('+','/',$img_text);
-            $img_text = str_replace ('*','+',$img_text);
-            return "<div style='position:relative; width:200px'><img src='$img_text' style='width:100%'></div>";
-        });
+        // $grid->column('img_path')->help('點擊數統計')->display(function ($title) {
+        //     $img_path = str_replace ('jpeg','html',$this->getOriginal()['img_path']);
+        //     $img_text = file_get_contents(env('S3_URL').$img_path);
+        //     $img_text = str_replace ('/','*',$img_text);
+        //     $img_text = str_replace ('+','/',$img_text);
+        //     $img_text = str_replace ('*','+',$img_text);
+        //     return "<div style='position:relative; width:200px'><img src='$img_text' style='width:100%'></div>";
+        // });
         
         // $grid->column('整包大小')->display(function () {
         //     $du_cmd = 'du -hd 0 '.public_path().'/mv/'.$this->id.'/ | cut -f 1';
