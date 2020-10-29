@@ -63,11 +63,10 @@ class videopreview extends Command
             order by id asc';
 
             $prev_lists = DB::select($sql);
-            
+            $i=0;
             foreach($prev_lists as $prev){
-                $i=1;
+                $i+=1;
                 DB::insert('insert into video_preview(vid,videofiles_id,sort) values('.$prev->vid.','.$prev->id.','.$i.')');
-                $i=$i+1;
             }
             
 
