@@ -90,7 +90,7 @@ class imagepreview extends Command
                 fclose($file);
 
                 $zeroj = str_pad($j,3,'0',STR_PAD_LEFT);
-                $cutimg_cmd = 'ffmpeg -y -protocol_whitelist file,http,https,tcp,tls,crypto -i '.$video_path.'/tmp.m3u8 -ss 00:00:00.0001 -vframes 1 '.$video_path.$zeroj.'.jpg';
+                $cutimg_cmd = 'ffmpeg -y -allowed_extensions ALL -protocol_whitelist file,http,https,tcp,tls,crypto -i '.$video_path.'/tmp.m3u8 -ss 00:00:00.0001 -vframes 1 '.$video_path.$zeroj.'.jpg';
                 exec($cutimg_cmd,$res,$m);
                 
                 if($m ==0 ){
