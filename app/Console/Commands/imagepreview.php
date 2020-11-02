@@ -101,7 +101,7 @@ class imagepreview extends Command
                 }
                 
                 #上傳至AWS
-                $upload_s3_cmd = 'aws s3 sync '.$video_path.' s3://mv-video/mv/'.$video->id.'/  --exclude "*" --include "*.html"';
+                $upload_s3_cmd = '/usr/local/bin/aws s3 sync '.$video_path.' s3://mv-video/mv/'.$video->id.'/  --exclude "*" --include "*.html"';
                 exec($upload_s3_cmd);
             }
 
