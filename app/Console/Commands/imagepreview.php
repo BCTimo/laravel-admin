@@ -82,7 +82,7 @@ class imagepreview extends Command
 '.env('S3_URL').$v.'
 #EXT-X-ENDLIST
                 ';
-                $video_path = '/project/laravel-admin/mv/'.$video->id.'/';
+                $video_path = '/tmp/mv/'.$video->id.'/';
                 exec('mkdir -p ' . $video_path);
                 // #寫檔案+產JPG
                 $file = fopen($video_path."tmp.m3u8","w+"); //開啟檔案
