@@ -15,14 +15,14 @@ class videopreview extends Command
      *
      * @var string
      */
-    protected $signature = 'preivew:genall';
+    protected $signature = 'preivew:genall {id?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '預覽影片建立';
+    protected $description = '預覽影片建立 可帶上起始ID';
 
     /**
      * Create a new command instance.
@@ -41,7 +41,13 @@ class videopreview extends Command
      */
     public function handle()
     {
-        $videos = Video::all();
+        if($this->argument('id')){
+            $startId = $this->argument('id');
+            $videos = Video::where('id','>=',$startId)->get();
+        }else{
+            $videos = Video::all();
+        }
+        
         foreach ($videos as $video){
             echo '==執行video ID: '.$video->id."\n";
             // $avg_sec = DB::query('select round(avg(sec),1) as avgsec from videofiles where vid = '.$video->id);
