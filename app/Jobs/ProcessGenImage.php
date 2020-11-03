@@ -35,7 +35,7 @@ class ProcessGenImage implements ShouldQueue
     public function handle()
     {
         
-        // Log::info('================Queue===執行轉換 Start===================');
+        Log::info('================Queue===執行轉換 Start===================ID: '.$this->video->id);
         #取間隔ts檔案轉成jpg => 轉成html
         $j=0;
         foreach($this->ts_list as $v){
@@ -73,6 +73,6 @@ class ProcessGenImage implements ShouldQueue
             $j++;
         }
        
-        Log::info('================Queue===執行轉換 End  ===================');
+        Log::info('================Queue===執行轉換 End  ===================ID: '.$this->video->id);
     }
 }
