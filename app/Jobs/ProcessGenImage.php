@@ -65,12 +65,12 @@ class ProcessGenImage implements ShouldQueue
                 #加密
                 $encrypt_img = 'echo \'data:image/jpeg;base64,\' > '.$video_path.$zeroj.'.html && base64 '.$video_path.$zeroj.".jpg | sed 's/[+]/*/g' |sed 's/\//+/g' | sed 's/[*]/\//g' >> ".$video_path.$zeroj.".html";
                 exec($encrypt_img);
-                $j++;
             }
             DB::insert('insert into video_preview_img(vid,img_path,sort) values('.$this->video->id.',"mv/'.$this->video->id.'/'.$zeroj.'.html",'.$j.')');
             #上傳至AWS
             $upload_s3_cmd = '/usr/local/bin/aws s3 sync '.$video_path.' s3://mv-video/mv/'.$this->video->id.'/  --exclude "*" --include "*.html"';
             exec($upload_s3_cmd);
+            $j++;
         }
        
         Log::info('================Queue===執行轉換 End  ===================');
