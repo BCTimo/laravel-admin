@@ -62,12 +62,16 @@ class imagepreview extends Command
                 $gap = (int)floor($gap);
             }
             $ts_list = [] ; 
+            
+            $vf_list = videofiles::where('vid',$video->id)->get();
+
             $i=0; 
             while($i <$total_ts){
-                $ts_list[]= '/mv/'.$video->id.'/file'.$i.'.ts'; 
+                // $ts_list[]= '/mv/'.$video->id.'/file'.$i.'.ts'; 
+                $ts_list[]=$vf_list[$i]->file_path;
                 $i=$i+$gap;
             }
-
+            //dd($ts_list);
             ProcessGenImage::dispatch($video,$ts_list);
             // dd($ts_list);
             
