@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use DB;
+use Videofiles;
 
 class ProcessGenImage implements ShouldQueue
 {
@@ -38,6 +39,7 @@ class ProcessGenImage implements ShouldQueue
         Log::info('================Queue===執行轉換 Start===================ID: '.$this->video->id);
         #取間隔ts檔案轉成jpg => 轉成html
         $j=0;
+        DB::table('video_preview_img')->where('vid', $this->video->id)->delete();
         foreach($this->ts_list as $v){
             #組檔案
             $m3u8 ='#EXTM3U
