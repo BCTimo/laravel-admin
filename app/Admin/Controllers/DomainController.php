@@ -29,6 +29,16 @@ class DomainController extends AdminController
     {
         $grid = new Grid(new Domain());
         
+
+        $grid->selector(function (Grid\Tools\Selector $selector) {
+            $type_list = [1=>'H5域名', 20=>'封面域名' , 21=> 'KEY域名' ,22=>'資源域名'];
+            $selector->select('type','域名类型', $type_list);
+            $status_list = [ 1 => '备用' , 2 => '启用' , 3 => '被拦截'];
+            $selector->select('status','域名状态',$status_list);
+
+
+        });
+
         $grid->column('domain', '域名')->link();
         $grid->column('explain','使用说明');
         $type_list = [1=>'H5域名', 20=>'封面域名' , 21=> 'KEY域名' ,22=>'資源域名'];
