@@ -58,7 +58,7 @@ class videopreviewtest extends Command
 
             // $avg_sec = DB::query('select round(avg(sec),1) as avgsec from videofiles where vid = '.$video->id);
             $filelists = DB::select('select * from videofiles where vid = '.$video->id .' limit '.$center[0]->center .' ,2');
-            dd($filelists);
+            // dd($filelists);
             $nowsecs = 0; 
             foreach($filelists as $k=>$v){
                 if($nowsecs > $this->min_prevsecs) { break;}
@@ -73,7 +73,7 @@ class videopreviewtest extends Command
             $i=0;
             foreach($prev_lists as $prev){
                 $i+=1;
-                // DB::insert('insert into video_preview_app(vid,videofiles_id,sort) values('.$prev['vid'].','.$prev['id'].','.$i.')');
+                 DB::insert('insert into video_preview_app(vid,videofiles_id,sort) values('.$prev['vid'].','.$prev['id'].','.$i.')');
             }
             
 
