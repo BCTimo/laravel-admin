@@ -57,7 +57,7 @@ class videopreviewtest extends Command
             // dd($center[0]->center);
 
             // $avg_sec = DB::query('select round(avg(sec),1) as avgsec from videofiles where vid = '.$video->id);
-            $filelists = DB::select('select * from videofiles where vid = '.$video->id .'limit '.$center[0]->center .' 2');
+            $filelists = DB::select('select * from videofiles where vid = '.$video->id .' limit '.$center[0]->center .' 2');
             dd($filelists);
             $nowsecs = 0; 
             foreach($filelists as $k=>$v){
