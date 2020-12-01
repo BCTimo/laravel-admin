@@ -53,14 +53,12 @@ class videopreviewtest extends Command
         foreach ($videos as $video){
             echo '==執行video ID: '.$video->id."\n";
 
-            $sql = DB::select('SELECT CEIL(COUNT(*)/2) as center FROM videofiles where vid = '.$video->id);//取中間值
-            dd($sql);
-
-
+            $center = DB::select('SELECT CEIL(COUNT(*)/2) as center FROM videofiles where vid = '.$video->id);//取中間值
+            // dd($center[0]->center);
 
             // $avg_sec = DB::query('select round(avg(sec),1) as avgsec from videofiles where vid = '.$video->id);
-            $filelists = DB::select('select * from videofiles where vid = '.$video->id);
-            //dd($filelists);
+            $filelists = DB::select('select * from videofiles where vid = '.$video->id .'limit '.$center[0]->center .' 2');
+            dd($filelists);
             $nowsecs = 0; 
             foreach($filelists as $k=>$v){
                 if($nowsecs > $this->min_prevsecs) { break;}
