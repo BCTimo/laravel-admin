@@ -64,7 +64,7 @@ class VideoController extends AdminController
         $grid->id('ID')->sortable();
         $grid->column('預覽')->display(function(){
             $domain = DB::select('select domain from domains where type=1 and status =2');
-            return '<a target="_blank" href="'.$domain[0]->domain.'/#/video?vid='.$this->id.'&token=13500000099">預覽</a>'; //http://vdw1.lixiaowei168.com/#/video?vid=581&token=13500000099
+            return '<a target="_blank" href="'.$domain[0]->domain.'/#/test?vid='.$this->id.'&token=13500000099">預覽</a>'; //http://vdw1.lixiaowei168.com/#/video?vid=581&token=13500000099
             
         });
         //$grid->column('img_path','轉檔狀態')->image(env('S3_URL'), 100, 100);
